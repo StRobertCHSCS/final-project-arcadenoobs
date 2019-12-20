@@ -3,7 +3,7 @@ import os
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-SCREEN_TITLE = 'TITLE'
+SCREEN_TITLE = 'DragonSlayer I'
 
 class MyGame(arcade.Window):
     '''
@@ -43,7 +43,7 @@ class MyGame(arcade.Window):
 
     def on_draw(self):
         '''
-         Arcade预设好的方法，用于绘制，所有绘制命令写在这
+        Arcade预设好的方法，用于绘制，所有绘制命令写在这
         '''
         arcade.start_render()
 
