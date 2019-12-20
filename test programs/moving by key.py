@@ -77,6 +77,7 @@ class MyGame(arcade.Window):
 
 def main():
     window = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT, "Moving by Key")
+    window.setup()
     arcade.run()
 
 if __name__ == '__main__':
