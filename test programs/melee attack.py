@@ -63,8 +63,11 @@ class MyGame(arcade.Window):
             radian = math.atan((y - self.ball.position_y)/(x - self.ball.position_x))
         print(radian)
             if self.ball.position_y < y and radian > 0:
-                if radian >= (math.pi/4):
+                if radian >= math.pi/4:
                     arcade.draw_text("UP", 100, 100, arcade.color.BLACK, 10)
+                if radian < math.pi/4:
+                    arcade.draw_text("RIGHT", 100, 100, arcade.color.BLACK, 10)
+            
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.LEFT:
@@ -88,7 +91,7 @@ class MyGame(arcade.Window):
 
 
 def main():
-    window = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT, "Moving by Key")
+    window = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT, "Melee Attack")
     arcade.run()
 
 if __name__ == '__main__':
