@@ -1,0 +1,2 @@
+1220 Q1: Why was the function not working when I tryed to put my arcade lines under my define on_mouse_press?
+1220 A1: Arcade lines can only run acurately under define on_drawin a class.
