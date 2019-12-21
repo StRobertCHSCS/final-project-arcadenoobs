@@ -49,22 +49,34 @@ class MyGame(arcade.Window):
         self.ball = Ball(300, 300, 0, 0, 15, arcade.color.DARK_PINK)
         print('上下左右移动，按住shift疾跑，有个小bug就是在已经按住走路时按疾跑不会加速，这个挺难修的可能要从写代码')
 
+        #######
+        self.Up = False
+        self.Down = False
+        self.Left = False
+        self.Right = False
         
-
     def on_draw(self):
         arcade.start_render()
         self.ball.draw()
+        if self.Up == True:
+            arcade.draw_text('Up', 300, 400, arcade.color.BLACK, 12)
 
     def update(self, delta_time):
         self.ball.update()
-
+        
     def on_mouse_press(self, x, y, button, modifiers):
         if x != self.ball.position_x and y != self.ball.position_y:
             radian = math.atan((y - self.ball.position_y)/(x - self.ball.position_x))
             print(radian)
             if self.ball.position_y < y and radian > 0:
                 if radian >= (math.pi/4):
-                    arcade.draw_text("UP", 100, 100, arcade.color.BLACK, 10)
+                    self.Up = True
+
+    def on_mouse_release(self, x, y, button, modifiers):
+        self.Up = False
+        self.Down = False
+        self.Left = False
+        self.Right = False
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.LEFT:
