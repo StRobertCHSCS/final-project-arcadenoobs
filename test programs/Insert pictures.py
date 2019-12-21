@@ -9,7 +9,7 @@ os.chdir(file_path)
 
 arcade.start_render()
 
-texture = arcade.load_texture('Artworks/example.png')
+texture = arcade.load_texture('Final project/Resource/Artworks/example.png')
 arcade.draw_texture_rectangle(300, 300, texture.width, texture.height, texture, 0)
 
 arcade.finish_render()

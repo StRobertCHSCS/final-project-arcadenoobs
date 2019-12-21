@@ -1,6 +1,7 @@
 import arcade
 import os
 
+
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = 'DragonSlayer I'
@@ -24,7 +25,7 @@ class MyGame(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
         # 这句同理
-        file_path = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__),os.path.pardir))
         os.chdir(file_path)
 
         arcade.set_background_color(arcade.color.WHITE)
