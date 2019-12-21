@@ -1,5 +1,6 @@
 import arcade
 import os
+import math
 
 SCREEM_WIDTH = 600
 SCREEN_HEIGHT = 600
@@ -27,6 +28,9 @@ class fire_ball:
     def update(self):
         self.x += self.dx
         self.y += self.dy
+    
+    def draw(self):
+        arcade.draw_circle_filled(self.x, self.y, 5, arcade.color.RED)
 
 class Window(arcade.Window):
 
@@ -36,7 +40,16 @@ class Window(arcade.Window):
         os.chdir(file_path)
         arcade.set_background_color(arcade.color.WHITE)
         self.spirit = spirit(300, 300)
+        self.fire_ball_list = []
     
+    def on_update(self, delta_time):
+        for fire_ball in self.fire_ball_list:
+            fire_ball.update()
+            if fire_ball.x == 0 or fire_ball.x == 600:
+                self.fire_ball_list.remove(fire_ball)
+            elif fire_ball.y == 0 or fire_ball.y == 600:
+                self.fire_ball_list.remove(fire_ball)  
+
     def set_up(self):
         pass
 
@@ -46,7 +59,13 @@ class Window(arcade.Window):
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
-            pass
+            if x > 300 and y > 300:
+                dh = 20
+                h = math.sqrt(x**2 + y**2)
+                p = h/dh
+                dx = x/p
+                dy = y/p
+                fire_ball = fire_ball(300, 300, dx, dy)
 
     def on_key_press(self, key, modifiers):
         pass
