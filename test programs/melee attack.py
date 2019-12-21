@@ -62,6 +62,9 @@ class MyGame(arcade.Window):
         if x != self.ball.position_x and y != self.ball.position_y:
             radian = math.atan((y - self.ball.position_y)/(x - self.ball.position_x))
         print(radian)
+            if self.ball.position_y < y and radian > 0:
+                if radian >= (math.pi/4):
+                    arcade.draw_text("UP", 100, 100, arcade.color.BLACK, 10)
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.LEFT:
