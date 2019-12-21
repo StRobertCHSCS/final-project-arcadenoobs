@@ -45,9 +45,9 @@ class Window(arcade.Window):
     def on_update(self, delta_time):
         for fire_ball in self.fire_ball_list:
             fire_ball.update()
-            if fire_ball.x == 0 or fire_ball.x == 600:
+            if fire_ball.x < 0 or fire_ball.x > 600:
                 self.fire_ball_list.remove(fire_ball)
-            elif fire_ball.y == 0 or fire_ball.y == 600:
+            elif fire_ball.y < 0 or fire_ball.y > 600:
                 self.fire_ball_list.remove(fire_ball)  
 
     def set_up(self):
@@ -56,16 +56,21 @@ class Window(arcade.Window):
     def on_draw(self):
         arcade.start_render()
         self.spirit.draw()
+        for ball in self.fire_ball_list:
+            ball.draw()
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
-            if x > 300 and y > 300:
-                dh = 20
-                h = math.sqrt(x**2 + y**2)
-                p = h/dh
-                dx = x/p
-                dy = y/p
-                fire_ball = fire_ball(300, 300, dx, dy)
+            dh = 20
+            rx = (x - 300)/abs(x - 300)
+            ry = (y - 300)/abs(y - 300)
+            p = (abs(x) - 300)/(abs(y) - 300)
+            dy = math.sqrt(dh**2/(1 + p**2))
+            dx = p*dy
+            ball = fire_ball(300, 300, abs(dx)*rx, abs(dy)*ry)
+            self.fire_ball_list.append(ball)
+            print(rx, ry)
+            print(self.fire_ball_list)
 
     def on_key_press(self, key, modifiers):
         pass

@@ -16,6 +16,9 @@ class Window(arcade.Window):
     def set_up(self):
         pass
 
+    def on_update(self, delta_time):
+        pass
+
     def on_draw(self):
         arcade.start_render()
         pass
