@@ -46,7 +46,7 @@ class MyGame(arcade.Window):
         self.set_mouse_visible(True)
         arcade.set_background_color(arcade.color.WHITE)
 
-        self.ball = Ball(300, 300, 0, 0, 15, arcade.color.DARK_PINK)
+        self.ball = Ball(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0, 0, 15, arcade.color.DARK_PINK)
         print('上下左右移动，按住shift疾跑，有个小bug就是在已经按住走路时按疾跑不会加速，这个挺难修的可能要从写代码')
 
         #######
@@ -59,18 +59,53 @@ class MyGame(arcade.Window):
         arcade.start_render()
         self.ball.draw()
         if self.Up == True:
-            arcade.draw_text('Up', 300, 400, arcade.color.BLACK, 12)
-
+            arcade.draw_text('UP', 290, 500, arcade.color.BLACK, 15)
+        if self.Down == True:
+            arcade.draw_text('DOWN', 290, 500, arcade.color.BLACK, 15)
+        if self.Left == True:
+            arcade.draw_text('LEFT', 290, 500, arcade.color.BLACK, 15)
+        if self.Right == True:
+            arcade.draw_text('RIGHT', 290, 500, arcade.color.BLACK, 15)
     def update(self, delta_time):
         self.ball.update()
         
     def on_mouse_press(self, x, y, button, modifiers):
+        
         if x != self.ball.position_x and y != self.ball.position_y:
             radian = math.atan((y - self.ball.position_y)/(x - self.ball.position_x))
             print(radian)
             if self.ball.position_y < y and radian > 0:
                 if radian >= (math.pi/4):
                     self.Up = True
+                if radian < (math.pi/4):
+                    self.Right = True
+            if self.ball.position_y < y and radian < 0:
+                if radian >= (-math.pi/4):
+                    self.Left = True
+                if radian < (-math.pi/4):
+                    self.Up = True
+            if self.ball.position_y > y and radian > 0:
+                if radian >= (math.pi/4):
+                    self.Down = True
+                if radian < (math.pi/4):
+                    self.Left = True
+            if self.ball.position_y > y and radian < 0:
+                if radian >= (-math.pi/4):
+                    self.Right = True
+                if radian < (-math.pi/4):
+                    self.Down = True
+        elif self.ball.position_x == x and self.ball.position_y != y:
+            if self.ball.position_y < y:
+                self.Up = True
+            else:
+                self.Down = True
+        elif self.ball.position_x != x and self.ball.position_y == y:
+            if self.ball.position_x < x:
+                self.Right = True
+            else:
+                self.Left = True
+            
+                
 
     def on_mouse_release(self, x, y, button, modifiers):
         self.Up = False
