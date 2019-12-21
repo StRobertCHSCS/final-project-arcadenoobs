@@ -49,6 +49,8 @@ class MyGame(arcade.Window):
         self.ball = Ball(300, 300, 0, 0, 15, arcade.color.DARK_PINK)
         print('上下左右移动，按住shift疾跑，有个小bug就是在已经按住走路时按疾跑不会加速，这个挺难修的可能要从写代码')
 
+        
+
     def on_draw(self):
         arcade.start_render()
         self.ball.draw()
@@ -57,8 +59,8 @@ class MyGame(arcade.Window):
         self.ball.update()
 
     def on_mouse_press(self, x, y, button, modifiers):
-        if x != position_x and y != position_y:
-            radian = math.atan((y - position_y)/(x - position_x))
+        if x != self.ball.position_x and y != self.ball.position_y:
+            radian = math.atan((y - self.ball.position_y)/(x - self.ball.position_x))
         print(radian)
 
     def on_key_press(self, key, modifiers):
