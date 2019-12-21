@@ -71,7 +71,7 @@ class Window(arcade.Window):
             #dh(delta_x)是火球飞行的速度，为固定值
             dh = 15
             #下方为确定飞行方向对运算，只在相对于spirit对第一象限生效(使用绝对值运算)
-            #通过与之前对方向判别相乘得出具体的delta_x, delta_y
+            #通过与对象向判别相乘得出具体的delta_x, delta_y
             if x != spirit_position_x and y != spirit_position_y:
                 #rx, ry -- r为reverse缩写，判定火球飞行方向，
                 # 由于要用到root运算所以下方要用绝对值，所以点击方向在这里计算
@@ -96,7 +96,6 @@ class Window(arcade.Window):
             #使用得到的数据创造一个对象，并添加到list里面，fire_ball_list 参见line 44
             ball = fire_ball(spirit_position_x, spirit_position_y, dx, dy)
             self.fire_ball_list.append(ball)
-            print(dx, dy)
 
     def on_key_press(self, key, modifiers):
         pass
