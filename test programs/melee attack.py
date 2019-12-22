@@ -47,7 +47,6 @@ class MyGame(arcade.Window):
         arcade.set_background_color(arcade.color.WHITE)
 
         self.ball = Ball(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0, 0, 15, arcade.color.DARK_PINK)
-        print('上下左右移动，按住shift疾跑，有个小bug就是在已经按住走路时按疾跑不会加速，这个挺难修的可能要从写代码')
 
         #######
         self.Up = False
