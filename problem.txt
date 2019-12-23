@@ -1,7 +1,7 @@
 1220 Q1: Why was the function not working when I tryed to put my arcade lines under my define on_mouse_press?
 1220 A1: Arcade lines can only run acurately under define on_drawin a class.
 
-12.21 Q2: how to use a class in py file A super an __init__ funcition in a class in file B and use a function in file B to call a function in file C?
-12.21 A2: use import in main file A to guide the program and use the same import as the main file in all other files if their are not no working as the main file
+12.21 Q2: How to use a class in py file A super an __init__ funcition in a class in file B and use a function in file B to call a function in file C?
+12.21 A2: Use import in main file A to guide the program and use the same import as the main file in all other files if their are not no working as the main file
           If other files may work as the main file, use if statement to determine whither they are working as the main files
           If they are, import other files according to their own file path
