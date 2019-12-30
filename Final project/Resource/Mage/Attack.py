@@ -42,3 +42,4 @@ def create_fire_ball(sx, sy, mx, my):
     fire_ball = Fire_ball(sx, sy, dx, dy)
     
     return fire_ball
+    

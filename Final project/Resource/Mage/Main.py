@@ -28,15 +28,19 @@ class Mage:
     def on_key_press(self, key):
         if key == arcade.key.A:
             self.key = 'A'
+            self.spirit.change_y = 0
             self.spirit.change_x = -Mage.MOVEMENT_SPEED
         elif key == arcade.key.D:
             self.key = 'D'
+            self.spirit.change_y = 0
             self.spirit.change_x = Mage.MOVEMENT_SPEED
         elif key == arcade.key.W:
             self.key = 'W'
+            self.spirit.change_x = 0
             self.spirit.change_y = Mage.MOVEMENT_SPEED
         elif key == arcade.key.S:
             self.key = 'S'
+            self.spirit.change_x = 0
             self.spirit.change_y = -Mage.MOVEMENT_SPEED
 
     def on_key_release(self, key):
@@ -57,4 +61,5 @@ if __name__ == '__main__':
 else: 
     import Resource.Mage.Attack as M_A
     import Resource.Mage.Movement as M_M
+    import Resource.Functions.Collisions as FCollision
 

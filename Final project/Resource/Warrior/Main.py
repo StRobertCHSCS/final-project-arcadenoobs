@@ -78,7 +78,7 @@ class Warrior:
         elif key == arcade.key.S:
             self.spirit.change_y = -Warrior.MOVEMENT_SPEED
         if key == 65505:
-            MyGame.MOVEMENT_SPEED = 20
+            Warrior.MOVEMENT_SPEED = 20
 
     def on_key_release(self, key):
         if key == arcade.key.A or key == arcade.key.D:
@@ -86,7 +86,7 @@ class Warrior:
         elif key == arcade.key.W or key == arcade.key.S:
             self.spirit.change_y = 0
         if key == 65505:
-            MyGame.MOVEMENT_SPEED = 3
+            Warrior.MOVEMENT_SPEED = 3
     
 
 if __name__ == '__main__':

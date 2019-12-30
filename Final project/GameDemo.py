@@ -1,5 +1,7 @@
 import Resource.Mage.Main as MMain
 import Resource.Warrior.Main as WMain
+import Resource.Obstacles.Main as OMain
+import Resource.Functions.Collisions as FCollision
 import arcade
 import os
 
@@ -20,17 +22,23 @@ class Window(arcade.Window):
             self.character = MMain.Mage(SCREEM_WIDTH, SCREEN_HEIGHT)
         else:
             self.character = WMain.Warrior(SCREEM_WIDTH, SCREEN_HEIGHT)
+
+        self.obstacles = OMain.Obstacles(100, 100, 30)
+
+        self.key = arcade.key.S
     
     def set_up(self):
         pass
 
     def on_update(self, delta_time):
         self.character.update()
+        FCollision.character_obstancles_display_collisions(self.key, self.character.spirit, self.obstacles.obstancles_list)
 
     def on_draw(self):
         arcade.start_render()
 
         self.character.draw()
+        self.obstacles.draw()
 
     def on_mouse_press(self, x, y, button, modifiers):
         self.character.on_mouse_press(x, y, button)
@@ -39,6 +47,7 @@ class Window(arcade.Window):
         self.character.on_mouse_release(x, y, button)
 
     def on_key_press(self, key, modifiers):
+        self.key = key
         self.character.on_key_press(key)
 
     def on_key_release(self, key, modifiers):
