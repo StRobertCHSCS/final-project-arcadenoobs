@@ -1,25 +1,39 @@
 import math
 import arcade
 
-def test():
-    print('Testing Attack')
-
 class Fire_ball:
     
     def __init__(self, x, y, dx, dy):
+        '''A class to store all datas of a specific fire ball
+        '''
         self.x = x
         self.y = y
         self.dx = dx
         self.dy = dy
     
     def update(self):
+        '''calculate the positions in time
+        '''
         self.x += self.dx
         self.y += self.dy
     
     def draw(self):
+        '''draw the fire ball
+        '''
         arcade.draw_circle_filled(self.x, self.y, 5, arcade.color.RED)
 
 def create_fire_ball(sx, sy, mx, my):
+    '''create a fire ball
+
+    Argument:
+        sx{float} -- spirit_x: x coordinate the spirit at
+        sy{float} -- spirit_y: y coordinate the spirit at
+        mx{float} -- mouse_pressed_x: x coordinate the mouse pressed at
+        my{fliat} -- mouse_pressed_y: y coordinate the mouse pressed at
+
+    Returns:
+        [object] -- a data package of the fire ball created
+    '''
     dh = 15
     if mx != sx and my != sy:
         rx = (mx - sx)/abs(mx - sx)

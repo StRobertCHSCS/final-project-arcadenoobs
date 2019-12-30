@@ -2,14 +2,15 @@ import math
 import arcade
 
 def square_collision(key, character, obstacles_list):
-    '''character_obstancles_square_display_collisions计算角色与物体之间是否视觉上碰撞
+    '''character_obstancles_square_display_collisions
+    To cheak if the collision happened between the character and obstacles
 
     Arguments:
-        character{Object} -- 角色的object
-        obstacles_list{List} -- 包含一类obstacles的objects的list
+        character{Object} -- object of the character(include positions and status)
+        obstacles_list{List} -- a list of obstacles, each object of a obstacles include its positions and status
 
     Returns:
-        [Jugement] -- 判断是否视觉碰撞
+        [NoneType] -- determine if the collision happened and reset the positions if happened
 
     '''
     for obstacles in obstacles_list:
@@ -36,6 +37,16 @@ def square_collision(key, character, obstacles_list):
             pass
             
 def fire_ball_collision(fire_ball, object):
+    '''Fire_ball_object_circle_real_collision
+    To cheak if a fireball hit a object
+
+    Arguments:
+        fire_ball{list} -- a list of all objects of fire balls
+        object{List} -- a list of a kind of objects(can be characters, monsters and obstacles)
+
+    Returns:
+        [NoneType] -- determine if the collision happened and reset datas
+    '''
     for balls in fire_ball:
         for obj in object:
             if math.sqrt((abs(balls.x - obj.position_x))**2 + (abs(balls.y - obj.position_y))**2) < obj.real_radius:

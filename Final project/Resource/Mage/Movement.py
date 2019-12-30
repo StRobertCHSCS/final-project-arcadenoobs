@@ -3,13 +3,12 @@ import arcade
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
-
-def test():
-    print('Testing Movenment')
     
 class Spirit():
     
     def __init__(self, position_x, position_y, change_x, change_y):
+        '''this class includes all varibles, function, and illustrations of Mage
+        '''
         self.position_x = position_x
         self.position_y = position_y
         self.position_x_previous = position_x
@@ -33,6 +32,8 @@ class Spirit():
         self.texture_Back2 = arcade.load_texture('Resource/Mage/Textures/Back2.png')
 
     def draw(self, key):
+        '''draw the spirit and its status
+        '''
         arcade.draw_text(f'Health {self.health}', 0, 580, arcade.color.RED, 15)
         arcade.draw_text(f'Mana{self.mana}/{self.mana_limit}', 0, 550, arcade.color.BLUE, 15)
         scale = 0.5
@@ -58,6 +59,8 @@ class Spirit():
                 arcade.draw_texture_rectangle(self.position_x, self.position_y + 12.5, self.texture_Back1.width*scale, self.texture_Back1.height*scale, self.texture_Back2, 0)
 
     def update(self):
+        '''update spirit's animations and barriers
+        '''
         self.position_y += self.change_y
         self.position_x += self.change_x
 
