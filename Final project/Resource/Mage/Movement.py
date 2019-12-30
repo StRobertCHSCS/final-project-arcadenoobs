@@ -20,6 +20,9 @@ class Spirit():
         self.real_radius = 12.5
         self.animation_h = 1
         self.animation_v = 1
+        self.health = 100
+        self.mana = 50
+        self.mana_limit = 50
         self.texture_Front1 = arcade.load_texture('Resource/Mage/Textures/Front1.png')
         self.texture_Left1 = arcade.load_texture('Resource/Mage/Textures/Left1.png')
         self.texture_Right1 = arcade.load_texture('Resource/Mage/Textures/Right1.png')
@@ -30,6 +33,8 @@ class Spirit():
         self.texture_Back2 = arcade.load_texture('Resource/Mage/Textures/Back2.png')
 
     def draw(self, key):
+        arcade.draw_text(f'Health {self.health}', 0, 580, arcade.color.RED, 15)
+        arcade.draw_text(f'Mana{self.mana}/{self.mana_limit}', 0, 550, arcade.color.BLUE, 15)
         scale = 0.5
         if key == 'S' and key != 'D' and key != 'A':
             if self.animation_v == 1:

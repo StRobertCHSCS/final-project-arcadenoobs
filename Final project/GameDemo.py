@@ -23,7 +23,7 @@ class Window(arcade.Window):
         elif character == 'warrior':
             self.character = WMain.Warrior(SCREEM_WIDTH, SCREEN_HEIGHT)
 
-        self.obstacles = OMain.Obstacles(100, 100, 30)
+        self.obstacles = OMain.Obstacles([[400, 400, 30, 0], [200, 200, 20, 1]])
 
         self.key = arcade.key.S
     
@@ -32,7 +32,9 @@ class Window(arcade.Window):
 
     def on_update(self, delta_time):
         self.character.update()
-        FCollision.character_obstancles_display_collisions(self.key, self.character.spirit, self.obstacles.obstancles_list)
+        self.obstacles.update()
+        FCollision.square_collision(self.key, self.character.spirit, self.obstacles.obstacles1_list)
+        FCollision.fire_ball_collision(self.character.fire_ball_list, self.obstacles.obstacles1_list)
 
     def on_draw(self):
         arcade.start_render()

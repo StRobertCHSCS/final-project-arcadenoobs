@@ -1,8 +1,8 @@
 import math
 import arcade
 
-def character_obstancles_display_collisions(key, character, obstacles_list):
-    '''计算角色与物体之间是否视觉上碰撞
+def square_collision(key, character, obstacles_list):
+    '''character_obstancles_square_display_collisions计算角色与物体之间是否视觉上碰撞
 
     Arguments:
         character{Object} -- 角色的object
@@ -33,6 +33,12 @@ def character_obstancles_display_collisions(key, character, obstacles_list):
                 character.position_y = oy - odr - 37.5
                 return True#below
         else:
-            return False
+            pass
             
-            
+def fire_ball_collision(fire_ball, object):
+    for balls in fire_ball:
+        for obj in object:
+            if math.sqrt((abs(balls.x - obj.position_x))**2 + (abs(balls.y - obj.position_y))**2) < obj.real_radius:
+                fire_ball.remove(balls)
+                obj.health -= 1
+                obj.color = 1

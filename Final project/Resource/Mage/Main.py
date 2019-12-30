@@ -53,8 +53,9 @@ class Mage:
         pass
 
     def on_mouse_release(self, x, y, button):
-        if button == arcade.MOUSE_BUTTON_LEFT:
+        if button == arcade.MOUSE_BUTTON_LEFT and self.spirit.mana > 0:
             self.fire_ball_list.append(M_A.create_fire_ball(self.spirit.position_x, self.spirit.position_y, x, y))
+            self.spirit.mana -= 1
 
 if __name__ == '__main__':
     print('Main runs as a main file')
