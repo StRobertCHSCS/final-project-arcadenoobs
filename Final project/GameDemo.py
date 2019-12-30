@@ -20,7 +20,7 @@ class Window(arcade.Window):
 
         if character == 'mage':
             self.character = MMain.Mage(SCREEM_WIDTH, SCREEN_HEIGHT)
-        else:
+        elif character == 'warrior':
             self.character = WMain.Warrior(SCREEM_WIDTH, SCREEN_HEIGHT)
 
         self.obstacles = OMain.Obstacles(100, 100, 30)
