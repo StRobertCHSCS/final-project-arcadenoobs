@@ -58,6 +58,9 @@ class Obstacles:
         for obstacles in self.obstacles1_list:
             if obstacles.health == 0:
                 self.obstacles1_list.remove(obstacles)
+        if len(self.obstacles1_list) == 1:
+            list = [random.randrange(30, 570), random.randrange(30, 570), 20, 1]
+            self.obstacles1_list.append(make_obstacles(list))
 
 if __name__ == '__main__':
     print('Main runs as a main file')
