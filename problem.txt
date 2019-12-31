@@ -5,3 +5,23 @@
 12.21 A2: Use import in main file A to guide the program and use the same import as the main file in all other files if their are not no working as the main file
           If other files may work as the main file, use if statement to determine whither they are working as the main files
           If they are, import other files according to their own file path
+
+12.30 Q3: How to make barriers
+12.30 A3: It looks like a simple question but actully it is hard if we don't use the preset spirit functions by arcade.
+          It confused me about 7 days!!!!! to debug and solve this problem and I has tried several ways.
+          The first way I came up with was to cheak if the x coordinate of the spirit(hereinafter referred to as sx) subtract,
+          plus the raius of the spirit(width divided by 2)(hereinafter referred to as sr) is in the range: x coordinate of 
+          the barrier(hereinafter referred to as bx) plus, subtract the radius(width divided by 2)(hereinafter referred to as br)
+          and y coordinates is the same and add restrictions like sx < bx to restrict the direction and than reset the position
+          of the spirit. But there was a serious problem that when the spirit overlapped with a barrier, it satisfied both x 
+          and y coordinates resetting demands!!!! and then the spirit is reset to the corner of the barrier but not to a edge.
+          I even tried trigonometries to solve this bug, but all my attempts in vain. Then I try to change my idea, why not 
+          just record a previous position of the spirit. Thereby, if the collision happened, I can just easily reset the spirit
+          to the previous point!!!! I thought I was a genius.(not really) But there was a weird thing happened: every time it 
+          resets, it will deviate slightly from what is expected. This might be caused by the order of the codes, but I spended hours
+          on it and still couldn't find the exact problem. Then I changed my idea again. I decided to use different keys to
+          distinguish different approaching directions so that I can determine where it should be reset. I rewrote the whole
+          on_key_press part for this and it finally worksT_T. But there came up this a more weird bug here after. When I increased the 
+          number of barriers to more than one, it only works for the first one???? I used for loop and packed all obstacle objects in a 
+          list but it just works for the first one. Fortunately, I find the bug source this time. Python doesn't tend to continue
+          the loop if it didn't satisfy anything, so I add a else statement below and that is the story.
