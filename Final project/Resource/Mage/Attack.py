@@ -34,7 +34,7 @@ def create_fire_ball(sx, sy, mx, my):
     Returns:
         [object] -- a data package of the fire ball created
     '''
-    dh = 15
+    dh = 20
     if mx != sx and my != sy:
         rx = (mx - sx)/abs(mx - sx)
         ry = (my - sy)/abs(my - sy)

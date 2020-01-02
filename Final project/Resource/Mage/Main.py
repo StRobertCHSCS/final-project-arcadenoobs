@@ -2,7 +2,7 @@ import arcade
 
 class Mage:
     
-    MOVEMENT_SPEED = 3
+    MOVEMENT_SPEED = 5
 
     def __init__(self, width, height):
         '''The package of Mage
