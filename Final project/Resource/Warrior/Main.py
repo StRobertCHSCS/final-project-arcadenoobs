@@ -12,6 +12,7 @@ class Warrior:
         self.Down = False
         self.Left = False
         self.Right = False
+        self.fire_ball_list = []
 
     def draw(self):
         self.spirit.draw()
