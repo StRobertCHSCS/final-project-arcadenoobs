@@ -5,7 +5,7 @@ import Resource.Functions.Collisions as FCollision
 import arcade
 import os
 
-SCREEM_WIDTH = 600
+SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = 'MyGame'
 
@@ -15,15 +15,15 @@ class Window(arcade.Window):
     def __init__(self, character):
         '''Main class of the game, call this class to start 
         '''
-        super().__init__(SCREEM_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         file_path = os.path.abspath(os.path.dirname(__file__))
         os.chdir(file_path)
         arcade.set_background_color(arcade.color.WHITE)
 
         if character == 'mage':
-            self.character = MMain.Mage(SCREEM_WIDTH, SCREEN_HEIGHT)
+            self.character = MMain.Mage(SCREEN_WIDTH, SCREEN_HEIGHT)
         elif character == 'warrior':
-            self.character = WMain.Warrior(SCREEM_WIDTH, SCREEN_HEIGHT)
+            self.character = WMain.Warrior(SCREEN_WIDTH, SCREEN_HEIGHT)
 
         self.obstacles = OMain.Obstacles([[400, 400, 30, 0], [200, 200, 20, 1]])
 
@@ -37,6 +37,7 @@ class Window(arcade.Window):
     def on_update(self, delta_time):
         '''update everything
         '''
+        arcade.set_viewport(self.character.spirit.position_x - SCREEN_WIDTH/2 - 1, self.character.spirit.position_x + SCREEN_WIDTH/2 - 1, self.character.spirit.position_y - SCREEN_HEIGHT/2, self.character.spirit.position_y + SCREEN_HEIGHT/2 - 1)
         self.character.update()
         self.obstacles.update()
         FCollision.square_collision(self.key, self.character.spirit, self.obstacles.obstacles1_list)
