@@ -27,11 +27,12 @@ class Window(arcade.Window):
 
         self.obstacles = OMain.Obstacles([[400, 400, 30, 0], [200, 200, 20, 1]])
 
-        self.key = arcade.key.S
+        self.key = None
     
     def set_up(self):
         '''initialize everything
         '''
+        self.key = arcade.key.S
         pass
 
     def on_update(self, delta_time):
