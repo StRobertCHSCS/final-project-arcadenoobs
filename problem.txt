@@ -6,7 +6,7 @@
           If other files may work as the main file, use if statement to determine whither they are working as the main files
           If they are, import other files according to their own file path
 
-12.30 Q3: How to make barriers
+12.30 Q3: How to make barriers and determine collisions
 12.30 A3: It looks like a simple question but actully it is hard if we don't use the preset spirit functions by arcade.
           It confused me about 7 days!!!!! to debug and solve this problem and I has tried several ways.
           The first way I came up with was to cheak if the x coordinate of the spirit(hereinafter referred to as sx) subtract,

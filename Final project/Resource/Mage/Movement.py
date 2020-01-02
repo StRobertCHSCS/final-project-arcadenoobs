@@ -34,8 +34,6 @@ class Spirit():
     def draw(self, key):
         '''draw the spirit and its status
         '''
-        arcade.draw_text(f'Health {self.health}', 0, 580, arcade.color.RED, 15)
-        arcade.draw_text(f'Mana{self.mana}/{self.mana_limit}', 0, 550, arcade.color.BLUE, 15)
         scale = 0.5
         if key == 'S' and key != 'D' and key != 'A':
             if self.animation_v == 1:

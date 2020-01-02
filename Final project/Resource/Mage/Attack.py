@@ -38,7 +38,7 @@ def create_fire_ball(sx, sy, mx, my):
     if mx != sx and my != sy:
         rx = (mx - sx)/abs(mx - sx)
         ry = (my - sy)/abs(my - sy)
-        theta = math.atan(1/(abs(mx - sx)/abs(my - sy)))
+        theta = math.atan(abs(my - sy)/abs(mx - sx))
         dx = (dh*math.cos(theta))*rx
         dy = (dh*math.sin(theta))*ry
     elif mx == sx and my > sy:

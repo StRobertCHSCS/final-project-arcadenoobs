@@ -15,7 +15,8 @@ class Mage:
         '''draw the spirit and fire balls
         '''
         self.spirit.draw(self.key)
-
+        arcade.draw_text(f'Health {self.spirit.health}', self.spirit.position_x - 300, 280 + self.spirit.position_y, arcade.color.RED, 15)
+        arcade.draw_text(f'Mana{self.spirit.mana}/{self.spirit.mana_limit}', self.spirit.position_x - 300, 250 + self.spirit.position_y, arcade.color.BLUE, 15)
         for fire_ball in self.fire_ball_list:
             fire_ball.draw()
 
@@ -66,7 +67,7 @@ class Mage:
         '''create fire balls
         '''
         if button == arcade.MOUSE_BUTTON_LEFT and self.spirit.mana > 0:
-            self.fire_ball_list.append(M_A.create_fire_ball(self.spirit.position_x, self.spirit.position_y, x, y))
+            self.fire_ball_list.append(M_A.create_fire_ball(self.spirit.position_x, self.spirit.position_y, x + self.spirit.position_x - 300, y + self.spirit.position_y - 300))
             self.spirit.mana -= 1
 
 if __name__ == '__main__':

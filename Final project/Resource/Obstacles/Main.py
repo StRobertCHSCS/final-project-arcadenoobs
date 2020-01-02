@@ -66,8 +66,9 @@ class Obstacles:
         '''
         self.obstacles1_list = []
         self.obstacles2_list = []
-        for object in list:
-            self.obstacles1_list.append(make_obstacles(object))
+        if len(list) > 0:
+            for object in list:
+                self.obstacles1_list.append(make_obstacles(object))
     
     def draw(self):
         '''draw all obstacles
@@ -78,13 +79,18 @@ class Obstacles:
     def update(self):
         '''update all obstacles
         '''
+
         for obstacles in self.obstacles1_list:
             if obstacles.health == 0:
                 self.obstacles1_list.remove(obstacles)
         #create a new one if there is no destructible obstacle
-        if len(self.obstacles1_list) == 1:
-            list = [random.randrange(30, 570), random.randrange(30, 570), 20, 1]
-            self.obstacles1_list.append(make_obstacles(list))
+        #if len(self.obstacles1_list) == 1:
+         #   list = [random.randrange(30, 570), random.randrange(30, 570), 20, 1]
+          #  self.obstacles1_list.append(make_obstacles(list))
+    
+    def make_a_object(self, x, y, r, t):
+        object = [x, y, r, t]
+        self.obstacles1_list.append(make_obstacles(object))
 
 if __name__ == '__main__':
     print('Main runs as a main file')
