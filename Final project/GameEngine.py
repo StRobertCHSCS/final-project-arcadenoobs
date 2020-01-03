@@ -1,5 +1,6 @@
 import arcade
 import os
+import json
 import Resource.Engine.chr as chr
 import Resource.Obstacles.Main as OMain
 
@@ -16,12 +17,18 @@ class Window(arcade.Window):
         arcade.set_background_color(arcade.color.WHITE)
 
         self.character = chr.Main(600, 600)
-        self.obstacles = None
+        self.obstacles = OMain.Obstacles()
+        self.file = None
+        self.data = None
         self.mouse_x = 0
         self.mouse_y = 0
 
     def set_up(self):
-        self.obstacles = OMain.Obstacles([[400, 400, 20, 0], [200, 200, 20, 1]])
+        self.file = open('Final project/Resource/Map/Obs.json')
+        self.data = json.load(self.file)
+        for dict in self.data:
+            object = [dict['x'], dict['y'], dict['r'], dict['t']]
+            self.obstacles.obstacles1_list.append(OMain.make_obstacles(object))
 
     def on_update(self, delta_time):
         arcade.set_viewport(self.character.spirit.position_x - SCREEN_WIDTH/2 - 1, self.character.spirit.position_x + SCREEN_WIDTH/2 - 1, self.character.spirit.position_y - SCREEN_HEIGHT/2, self.character.spirit.position_y + SCREEN_HEIGHT/2 - 1)
@@ -44,7 +51,13 @@ class Window(arcade.Window):
     def on_key_press(self, key, modifiers):
         self.character.on_key_press(key)
         if key == arcade.key.SPACE:
-            self.obstacles.make_a_object(round(self.character.spirit.position_x, -1), round(self.character.spirit.position_y, -1), 20, 1)
+            self.data.append({"x": round(self.character.spirit.position_x, -1), "y": round(self.character.spirit.position_y, -1), "r": 20, "t": 1})
+            object = [round(self.character.spirit.position_x, -1), round(self.character.spirit.position_y, -1), 20, 1]
+            self.obstacles.obstacles1_list.append(OMain.make_obstacles(object))
+        if key == arcade.key.L:
+            with open('Final project/Resource/Map/Obs.json', 'w') as f:
+                j = json.dump(self.data, f, ensure_ascii=False)
+
     
     def on_key_release(self, key, modifiers):
         self.character.on_key_release(key)

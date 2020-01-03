@@ -61,14 +61,12 @@ class Destructible:
 
 class Obstacles:
 
-    def __init__(self, list):
+    def __init__(self):
         '''The package of all obstacles
         '''
         self.obstacles1_list = []
         self.obstacles2_list = []
-        if len(list) > 0:
-            for object in list:
-                self.obstacles1_list.append(make_obstacles(object))
+
     
     def draw(self):
         '''draw all obstacles
