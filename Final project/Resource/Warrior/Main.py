@@ -18,12 +18,16 @@ class Warrior:
         self.spirit.draw()
         if self.Up == True:
             arcade.draw_text('UP', 290, 500, arcade.color.BLACK, 15)
+            arcade.draw_arc_filled(self.spirit.position_x, self.spirit.position_y, 50, 50, arcade.color.GRAY, 45, 135, 0)
         if self.Down == True:
             arcade.draw_text('DOWN', 290, 500, arcade.color.BLACK, 15)
+            arcade.draw_arc_filled(self.spirit.position_x, self.spirit.position_y, 50, 50, arcade.color.GRAY, 45, 135, 180)
         if self.Left == True:
             arcade.draw_text('LEFT', 290, 500, arcade.color.BLACK, 15)
+            arcade.draw_arc_filled(self.spirit.position_x, self.spirit.position_y, 50, 50, arcade.color.GRAY, 45, 135, 90)
         if self.Right == True:
             arcade.draw_text('RIGHT', 290, 500, arcade.color.BLACK, 15)
+            arcade.draw_arc_filled(self.spirit.position_x, self.spirit.position_y, 50, 50, arcade.color.GRAY, 45, 135, 270)
     
     def update(self):
         self.spirit.update()
