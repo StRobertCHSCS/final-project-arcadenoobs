@@ -51,12 +51,17 @@ class Window(arcade.Window):
     def on_key_press(self, key, modifiers):
         self.character.on_key_press(key)
         if key == arcade.key.SPACE:
-            self.data.append({"x": round(self.character.spirit.position_x, -1), "y": round(self.character.spirit.position_y, -1), "r": 20, "t": 1})
-            object = [round(self.character.spirit.position_x, -1), round(self.character.spirit.position_y, -1), 20, 1]
+            self.data.append({"x": round(self.character.spirit.position_x, -1), "y": round(self.character.spirit.position_y, -1), "r": 20, "t": 0})
+            object = [round(self.character.spirit.position_x, -1), round(self.character.spirit.position_y, -1), 20, 0]
             self.obstacles.obstacles1_list.append(OMain.make_obstacles(object))
         if key == arcade.key.L:
             with open('Final project/Resource/Map/Obs.json', 'w') as f:
                 j = json.dump(self.data, f, ensure_ascii=False)
+        if key == arcade.key.E:
+            for dict in self.data:
+                if dict["x"] == round(self.character.spirit.position_x, -1) and dict["y"] == round(self.character.spirit.position_y, -1):
+                    self.data.remove(dict)
+                
 
     
     def on_key_release(self, key, modifiers):

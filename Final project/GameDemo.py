@@ -4,6 +4,7 @@ import Resource.Obstacles.Main as OMain
 import Resource.Functions.Collisions as FCollision
 import arcade
 import os
+import json
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
@@ -25,15 +26,19 @@ class Window(arcade.Window):
         elif character == 'warrior':
             self.character = WMain.Warrior(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-        self.obstacles = OMain.Obstacles([[400, 400, 30, 0], [200, 200, 20, 1]])
-
+        self.obstacles = OMain.Obstacles()
+        self.file = None
+        self.data = None
         self.key = None
     
     def set_up(self):
         '''initialize everything
         '''
-        self.key = arcade.key.S
-        pass
+        self.file = open('Resource/Map/Obs.json')
+        self.data = json.load(self.file)
+        for dict in self.data:
+            object = [dict['x'], dict['y'], dict['r'], dict['t']]
+            self.obstacles.obstacles1_list.append(OMain.make_obstacles(object))
 
     def on_update(self, delta_time):
         '''update everything
