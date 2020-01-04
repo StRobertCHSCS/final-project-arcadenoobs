@@ -1,73 +1,103 @@
+import Data.Engine.Creator as Creator
+import Data.Mage.Mage as Mage
+import Data.Obs.Obs as Obs
 import arcade
 import os
 import json
-import Resource.Engine.chr as chr
-import Resource.Obstacles.Main as OMain
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
-SCREEN_TITLE = 'title'
+SCREEN_TITLE = 'MyGame'
+
 
 class Window(arcade.Window):
 
     def __init__(self):
+        '''Main class of the game, call this class to start 
+        '''
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__),os.path.pardir))
+        file_path = os.path.abspath(os.path.dirname(__file__))
         os.chdir(file_path)
-        arcade.set_background_color(arcade.color.WHITE)
 
-        self.character = chr.Main(600, 600)
-        self.obstacles = OMain.Obstacles()
-        self.file = None
-        self.data = None
-        self.mouse_x = 0
-        self.mouse_y = 0
+        arcade.set_background_color(arcade.color.WHITE)
+        self.spawnpoint = None
+        self.stone = None
+        self.cracked_stone = None
+        self.character = Creator.Main()
+        self.obs = Obs.Obstacle()
+        self.physics_engine = None
+        self.type = 0
 
     def set_up(self):
-        self.file = open('Final project/Resource/Map/Obs.json')
-        self.data = json.load(self.file)
-        for dict in self.data:
-            object = [dict['x'], dict['y'], dict['r'], dict['t']]
-            self.obstacles.obstacles1_list.append(OMain.make_obstacles(object))
+        '''initialize everything
+        '''
+        self.character.setup()
+        self.obs.setup()
+
+        self.spawnpoint = arcade.load_texture('Data/Engine/Textures/Spawnpoint.png', scale=1)
+        self.cracked_stone = arcade.load_texture('Data/Obs/Textures/Cracked Stone.png', scale=2)
+        self.stone = arcade.load_texture('Data/Obs/Textures/Stone.png')
 
     def on_update(self, delta_time):
-        arcade.set_viewport(self.character.spirit.position_x - SCREEN_WIDTH/2 - 1, self.character.spirit.position_x + SCREEN_WIDTH/2 - 1, self.character.spirit.position_y - SCREEN_HEIGHT/2, self.character.spirit.position_y + SCREEN_HEIGHT/2 - 1)
+        '''update everything
+        '''
         self.character.update()
-        self.obstacles.update()
+        self.obs.update()
 
     def on_draw(self):
+        '''draw everything
+        '''
         arcade.start_render()
-
-        self.obstacles.draw()
+        self.obs.draw()
         self.character.draw()
 
-
-    def on_mouse_motion(self, x, y, dx, dy):
-        pass
+        if self.type == 0:
+            arcade.draw_texture_rectangle(self.character.sprite.center_x + 280, self.character.sprite.center_y, self.stone.width*2, self.stone.height*2, self.stone)
+        elif self.type == 1:
+            arcade.draw_texture_rectangle(self.character.sprite.center_x + 280, self.character.sprite.center_y, self.cracked_stone.width*2, self.cracked_stone.height*2, self.cracked_stone)
+        elif self.type == 2:
+            arcade.draw_texture_rectangle(self.character.sprite.center_x + 280, self.character.sprite.center_y,self.spawnpoint.width, self.spawnpoint.height, self.spawnpoint)
 
     def on_mouse_press(self, x, y, button, modifiers):
+        '''calls everything when mouse buttons are pressed
+        '''
+        pass
+    
+    def on_mouse_release(self, x, y, button, modifiers):
+        '''calls everything when mouse buttons are released
+        '''
         pass
 
     def on_key_press(self, key, modifiers):
-        self.character.on_key_press(key)
-        if key == arcade.key.SPACE:
-            self.data.append({"x": round(self.character.spirit.position_x, -1), "y": round(self.character.spirit.position_y, -1), "r": 20, "t": 0})
-            object = [round(self.character.spirit.position_x, -1), round(self.character.spirit.position_y, -1), 20, 0]
-            self.obstacles.obstacles1_list.append(OMain.make_obstacles(object))
-        if key == arcade.key.L:
-            with open('Final project/Resource/Map/Obs.json', 'w') as f:
-                j = json.dump(self.data, f, ensure_ascii=False)
-        if key == arcade.key.E:
-            for dict in self.data:
-                if dict["x"] == round(self.character.spirit.position_x, -1) and dict["y"] == round(self.character.spirit.position_y, -1):
-                    self.data.remove(dict)
-                
+        '''calls everything when keys are pressed
+        '''
+        self.character.key_press(key)
 
-    
+        if key == arcade.key.SPACE and self.type != 2:
+            self.obs.key_press(key, round(self.character.sprite.center_x, -1), round(self.character.sprite.center_y, -1), self.type)
+        elif key == arcade.key.E:
+            self.obs.delete(self.character.sprite.center_x, self.character.sprite.center_y)
+        elif key == arcade.key.SPACE and self.type == 2:
+            self.character.renew_spawnpoint(round(self.character.sprite.center_x, -1), round(self.character.sprite.center_y, -1))
+
+        if key == arcade.key.R:
+            if self.type <= 1:
+                self.type += 1
+            else:
+                self.type = 0
+
+        if key == arcade.key.L:
+            self.obs.save()
+            self.character.save()
+
     def on_key_release(self, key, modifiers):
-        self.character.on_key_release(key)
+        '''calls everything when keys are released
+        '''
+        self.character.key_release(key)
 
 def main():
+    '''calls the whole program
+    '''
     window = Window()
     window.set_up()
     arcade.run()
