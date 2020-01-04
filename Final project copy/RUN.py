@@ -11,7 +11,7 @@ SCREEN_TITLE = 'MyGame'
 
 class Window(arcade.Window):
 
-    def __init__(self):
+    def __init__(self, job):
         '''Main class of the game, call this class to start 
         '''
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
@@ -20,10 +20,11 @@ class Window(arcade.Window):
 
         arcade.set_background_color(arcade.color.GRAY)
 
-        
+
         self.character = Mage.Mage()
         self.obs = Obs.Obstacle()
         self.physics_engine = None
+        self.job = job
 
     def set_up(self):
         '''initialize everything
@@ -38,12 +39,16 @@ class Window(arcade.Window):
         self.physics_engine = arcade.PhysicsEngineSimple(self.character.sprite, self.obs.obs_list)
         self.physics_engine.update()
         
-        for obs in self.obs.obs_list:
-            hit_list = arcade.check_for_collision_with_list(obs, self.character.fireball_list)
-            if len(hit_list) > 0:
-                for fireball in hit_list:
-                    fireball.remove_from_sprite_lists()
-                obs.health -= 1
+        if self.job == 0:
+            for obs in self.obs.obs_list:
+                hit_list = arcade.check_for_collision_with_list(obs, self.character.fireball_list)
+                if len(hit_list) > 0:
+                    for fireball in hit_list:
+                        fireball.remove_from_sprite_lists()
+                    if obs.health < 10000:
+                        obs.health -= 1
+                        self.obs.color_change(obs.center_x, obs.center_y)
+
         self.obs.update()
 
     def on_draw(self):
@@ -77,7 +82,7 @@ class Window(arcade.Window):
 def main():
     '''calls the whole program
     '''
-    window = Window()
+    window = Window(0)
     window.set_up()
     arcade.run()
 

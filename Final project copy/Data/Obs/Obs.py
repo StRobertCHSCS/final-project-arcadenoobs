@@ -13,14 +13,15 @@ class Cracked_Stone(arcade.Sprite):
         super().__init__(filename, 2)
         self.health = health
 
-
 class Obstacle:
 
     def __init__(self):
         self.obs_list = None
+        self.injued_list = None
 
     def setup(self):
         self.obs_list = arcade.SpriteList()
+        self.injued_list = arcade.SpriteList()
 
         stone = open('Data/Map/Stone.json')
         data = json.load(stone)
@@ -40,11 +41,16 @@ class Obstacle:
 
     def draw(self):
         self.obs_list.draw()
+        if len(self.injued_list) >= 0:
+            self.injued_list.draw()
+            for i in self.injued_list:
+                i.remove_from_sprite_lists()
     
     def update(self):
         for obs in self.obs_list:
             if obs.health == 0:
                 obs.remove_from_sprite_lists()
+
     
     def key_press(self, key, x, y, type):
         if type == 0:
@@ -58,6 +64,12 @@ class Obstacle:
             s.center_y = y
             s.health = 5
             self.obs_list.append(s)
+    
+    def color_change(self, x, y):
+        n = arcade.Sprite('Data/Obs/Textures/Cracked Stone1.png', 2)
+        n.center_x = x
+        n.center_y = y
+        self.injued_list.append(n)
     
     def save(self):
         with open('Data/Map/Cracked Stone.json', 'w+') as f:
