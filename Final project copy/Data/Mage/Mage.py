@@ -39,7 +39,7 @@ class Mage:
         self.fireball = None
         self.sprite = None
 
-        self.health = 20
+        self.health = 10
         self.mana = 50
         self.mana_limit = 50
 
