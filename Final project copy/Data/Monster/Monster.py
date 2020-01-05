@@ -68,7 +68,7 @@ class Monster:
 
     def path_update(self, mon, x, y, collision):
         if mon.type == 'slime':
-            speed = 1
+            speed = 1.5
             if abs(mon.center_x - x) > 20 and abs(mon.center_y - y) > 20:
                 if abs(mon.center_x - x) > abs(mon.center_y - y) and abs(mon.center_x - x) > 20 and collision == False:
                     if mon.center_x > x:

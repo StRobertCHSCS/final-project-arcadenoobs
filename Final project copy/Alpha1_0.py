@@ -83,7 +83,7 @@ class Window(arcade.Window):
         if self.refresh == 60:
             hit_list = arcade.check_for_collision_with_list(self.character.sprite, self.monster.actived_list)
             if len(hit_list) > 0:
-                self.character.health -= 1
+                self.character.health -= len(hit_list)
                 self.refresh = 0
 
     def on_draw(self):
