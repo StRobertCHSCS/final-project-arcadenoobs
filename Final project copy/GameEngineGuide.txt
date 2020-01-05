@@ -1,0 +1,15 @@
+WASD for Movements
+
+R Switch Blocks{
+    "0": STONE(UNDESTROYATBLE)
+    "1": CRACKED STONE(Destroyable, health = 5)
+    "2": Set the Swamp Point(Can be change，Undestroyable)
+}
+
+SPACE - Create Blocks(ROUND to TENTH)
+
+E Destroy(ROUND to Tenth in Position)
+
+L - Save the file
+
+Hold SHIFT to SPEED UP
