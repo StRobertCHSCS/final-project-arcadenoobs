@@ -8,7 +8,7 @@ import json
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
-SCREEN_TITLE = 'MyGame'
+SCREEN_TITLE = 'Engine'
 
 
 class Window(arcade.Window):
