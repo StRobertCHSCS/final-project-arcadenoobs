@@ -8,6 +8,7 @@ class Slime(arcade.Sprite):
         super().__init__(filename)
         self.health = health
         self.type = 'slime'
+        self.attack = 1
 
 class Monster:
 
