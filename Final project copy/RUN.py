@@ -27,7 +27,9 @@ class Window(arcade.Window):
         self.physics_engine = None
         self.physics_engine2 = None
         self.job = job
-        self.refresh = 0
+        self.refresh_damage = 0
+        self.refresh_in_min = 0
+        self.key = 0
 
     def set_up(self):
         '''initialize everything
@@ -37,10 +39,13 @@ class Window(arcade.Window):
         self.monster.setup()
 
     def on_update(self, delta_time):
-        '''update everything
-        '''
-        if self.refresh < 60:
-            self.refresh += 1
+        if self.refresh_in_min < 60:
+            self.refresh_in_min += 1
+        else:
+            self.refresh_in_min = 0
+        if self.refresh_damage < 60:
+            self.refresh_damage += 1
+
         self.character.update()
         self.physics_engine = arcade.PhysicsEngineSimple(self.character.sprite, self.obs.obs_list)
         self.physics_engine.update()
@@ -52,12 +57,11 @@ class Window(arcade.Window):
                 self.monster.path_update(mon, self.character.sprite.center_x, self.character.sprite.center_y, True)
             else:
                 self.monster.path_update(mon, self.character.sprite.center_x, self.character.sprite.center_y, False)
-            self.physics_engine2 = arcade.PhysicsEnginePlatformer(mon, self.obs.obs_list, gravity_constant=0)
+            self.physics_engine2 = arcade.PhysicsEngineSimple(mon, self.obs.obs_list)
             self.physics_engine2.update()
-
-        con = 0
         
-        if self.job == 0:
+
+            con = 0
             for obs in self.obs.obs_list:
                 hit_list = arcade.check_for_collision_with_list(obs, self.character.fireball_list)
                 if len(hit_list) > 0:
@@ -79,15 +83,16 @@ class Window(arcade.Window):
                         con = 1
 
         self.obs.update()
-        
-        if self.refresh == 60:
+
+        if self.refresh_damage == 60:
             hit_list = arcade.check_for_collision_with_list(self.character.sprite, self.monster.actived_list)
             if len(hit_list) > 0:
                 hurt = 0
                 for mon in hit_list:
                     hurt += mon.attack
                 self.character.health -= hurt
-                self.refresh = 0
+                self.refresh_damage = 0   
+        
 
     def on_draw(self):
         '''draw everything
@@ -106,21 +111,31 @@ class Window(arcade.Window):
     def on_mouse_release(self, x, y, button, modifiers):
         '''calls everything when mouse buttons are released
         '''
-        self.character.mouse_release(x, y)
+        if self.key == 1:
+            self.character.skill_1(x, y, self.obs.obs_list)
+        else:
+            self.character.mouse_release(x, y)
 
     def on_key_press(self, key, modifiers):
         '''calls everything when keys are pressed
         '''
-        self.character.key_press(key)
+        if key == 49 and self.character.skill1 == 1:
+            self.key = 1
+        else:
+            self.character.key_press(key)
 
     def on_key_release(self, key, modifiers):
         '''calls everything when keys are released
         '''
-        self.character.key_release(key)
+        if key == 49:
+            self.key = 0
+        else:
+            self.character.key_release(key)
 
 def main():
     '''calls the whole program
     '''
+    print('Running as Alpha ver. 1.1')
     window = Window(0)
     window.set_up()
     arcade.run()

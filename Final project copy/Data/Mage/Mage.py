@@ -2,6 +2,13 @@ import arcade
 import math
 import json
 
+class Ice_block(arcade.Sprite):
+
+    def __init__(self, filename):
+        super().__init__(filename, 2)
+        self.type = 'ice'
+        self.duration = 300
+
 class Sprite(arcade.Sprite):
 
     def __init__(self, filename):
@@ -42,8 +49,13 @@ class Mage:
         self.health = 10
         self.mana = 50
         self.mana_limit = 50
+        self.skill1 = 0
+        self.skill2 = 0
+        self.skill3 = 0
 
     def setup(self):
+        self.skill1 = 1
+
         self.sprite_list = arcade.SpriteList()
         self.fireball_list = arcade.SpriteList()
 
@@ -68,6 +80,7 @@ class Mage:
         arcade.set_viewport(self.sprite.center_x - 301, self.sprite.center_x +299, self.sprite.center_y - 301, self.sprite.center_y + 299)
         self.sprite_list.update()
         self.fireball_list.update()
+        
         if self.health == 0:
             print("GAME OVER\nWASTED")
             arcade.close_window()
@@ -156,3 +169,13 @@ class Mage:
             self.sprite.change_y = 0
         elif key == arcade.key.A or key == arcade.key.D:
             self.sprite.change_x = 0
+    
+    def skill_1(self, x, y, list):
+        if self.mana >= 3:
+            self.mana -= 3
+            mx = x + self.sprite.center_x - 300
+            my = y + self.sprite.center_y - 300
+            i =  Ice_block('Data/Mage/Textures/Ice Block.png')
+            i.center_x = mx
+            i.center_y = my
+            list.append(i)
