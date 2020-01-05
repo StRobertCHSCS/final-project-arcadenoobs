@@ -81,7 +81,7 @@ class Monster:
                             mon.change_y = -speed
                         else:
                             mon.change_y = speed
-            else:
+            elif abs(mon.center_x - x) < 20 and abs(mon.center_y - y) < 20:
                 mon.change_x = 0
                 mon.change_y = 0
                         
