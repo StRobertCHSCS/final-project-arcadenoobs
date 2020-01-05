@@ -68,6 +68,9 @@ class Mage:
         arcade.set_viewport(self.sprite.center_x - 301, self.sprite.center_x +299, self.sprite.center_y - 301, self.sprite.center_y + 299)
         self.sprite_list.update()
         self.fireball_list.update()
+        if self.health == 0:
+            print("GAME OVER\nWASTED")
+            arcade.close_window()
     
     def draw(self):
         self.sprite.draw()

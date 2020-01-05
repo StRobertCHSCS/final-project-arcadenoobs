@@ -1,5 +1,6 @@
 import Data.Mage.Mage as Mage
 import Data.Obs.Obs as Obs
+import Data.Monster.Monster as Monster
 import arcade
 import os
 import json
@@ -23,21 +24,39 @@ class Window(arcade.Window):
 
         self.character = Mage.Mage()
         self.obs = Obs.Obstacle()
+        self.monster = Monster.Monster()
         self.physics_engine = None
+        self.physics_engine2 = None
         self.job = job
+        self.refresh = 0
 
     def set_up(self):
         '''initialize everything
         '''
         self.character.setup()
         self.obs.setup()
+        self.monster.setup()
 
     def on_update(self, delta_time):
         '''update everything
         '''
+        if self.refresh < 60:
+            self.refresh += 1
         self.character.update()
         self.physics_engine = arcade.PhysicsEngineSimple(self.character.sprite, self.obs.obs_list)
         self.physics_engine.update()
+
+        self.monster.update(self.character.sprite.center_x, self.character.sprite.center_y)
+        for mon in self.monster.actived_list:
+            hit_list = arcade.check_for_collision_with_list(mon, self.obs.obs_list)
+            if len(hit_list) > 0:
+                self.monster.path_update(mon, self.character.sprite.center_x, self.character.sprite.center_y, True)
+            else:
+                self.monster.path_update(mon, self.character.sprite.center_x, self.character.sprite.center_y, False)
+            self.physics_engine2 = arcade.PhysicsEnginePlatformer(mon, self.obs.obs_list, gravity_constant=0)
+            self.physics_engine2.update()
+
+        con = 0
         
         if self.job == 0:
             for obs in self.obs.obs_list:
@@ -48,8 +67,25 @@ class Window(arcade.Window):
                     if obs.health < 10000:
                         obs.health -= 1
                         self.obs.color_change(obs.center_x, obs.center_y)
+                    con = 1
+            if con == 0:
+                for mon in self.monster.actived_list:
+                    hit_list = arcade.check_for_collision_with_list(mon, self.character.fireball_list)
+                    if len(hit_list) > 0:
+                        for fireball in hit_list:
+                            fireball.remove_from_sprite_lists()
+                        if mon.type == 'slime':
+                            mon.health -= 1
+                            self.monster.color_change(mon.center_x, mon.center_y)
+                        con = 1
 
         self.obs.update()
+        
+        if self.refresh == 60:
+            hit_list = arcade.check_for_collision_with_list(self.character.sprite, self.monster.actived_list)
+            if len(hit_list) > 0:
+                self.character.health -= 1
+                self.refresh = 0
 
     def on_draw(self):
         '''draw everything
@@ -57,6 +93,7 @@ class Window(arcade.Window):
         arcade.start_render()
 
         self.obs.draw()
+        self.monster.draw()
         self.character.draw()
         
     def on_mouse_press(self, x, y, button, modifiers):

@@ -92,3 +92,4 @@ class Obstacle:
         for obs in self.obs_list:
             if round(x, -1) == obs.center_x and round(y, -1) == obs.center_y:
                 obs.remove_from_sprite_lists()
+                return 'pass'
