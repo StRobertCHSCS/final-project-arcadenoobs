@@ -21,7 +21,6 @@ class Window(arcade.Window):
 
         arcade.set_background_color(arcade.color.GRAY)
 
-
         self.character = Mage.Mage()
         self.obs = Obs.Obstacle()
         self.monster = Monster.Monster()
