@@ -4,6 +4,7 @@ R Switch Blocks{
     "0": STONE(UNDESTROYATBLE)
     "1": CRACKED STONE(Destroyable, health = 5)
     "2": Set the Swamp Point(Can be change，Undestroyable)
+    "3": Small Slime(Level 1 minion)
 }
 
 SPACE - Create Blocks(ROUND to TENTH)
