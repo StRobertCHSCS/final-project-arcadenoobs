@@ -87,7 +87,7 @@ class Mage:
         self.sprite_list.update()
         self.fireball_list.update()
         
-        if self.health == 0:
+        if self.health <= 0:
             print("GAME OVER\nYOU DIED")
             arcade.close_window()
         if self.mana > 50:

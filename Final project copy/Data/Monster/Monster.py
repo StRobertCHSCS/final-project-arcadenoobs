@@ -6,7 +6,7 @@ class Slime(arcade.Sprite):
 
     def __init__(self, filename, health):
         super().__init__(filename)
-        self.health = health
+        self.health = 3
         self.type = 'slime'
         self.attack = 1
 
