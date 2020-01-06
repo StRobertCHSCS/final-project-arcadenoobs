@@ -226,6 +226,16 @@ class Monster:
             s.center_y = y
             s.health = 3
             self.monster_list.append(s)
+        elif type == 4:
+            g = Ghost('Data/Monster/Textures/Ghost.png')
+            g.center_x = x
+            g.center_y = y
+            self.monster_list.append(g)
+        elif type == '5:
+            s = BiggySlime('Data/Monster/Texture/BiggySlime.png')
+            s.center_x = x
+            s.center_y = y
+            self.monster_list.append(s) 
 
     def color_change(self, x, y, type):
         if type == 'slime':
