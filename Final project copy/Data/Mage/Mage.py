@@ -8,6 +8,7 @@ class Ice_block(arcade.Sprite):
         super().__init__(filename, 2)
         self.type = 'ice'
         self.duration = 300
+        self.health = 10
 
 class Sprite(arcade.Sprite):
 
@@ -108,7 +109,6 @@ class Mage:
     
     def mouse_release(self, x, y):
         if self.mana >= 0:
-            self.mana -= 1
             sx = self.sprite.center_x
             sy = self.sprite.center_y
             mx = x + self.sprite.center_x - 300
