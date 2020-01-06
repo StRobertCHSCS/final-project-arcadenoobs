@@ -59,7 +59,7 @@ class Chest:
                     d.type = a
                     self.drops_list.append(d)
                 elif a == 'health':
-                    d = Drops('Data/Chest/Textures/Mana.png')
+                    d = Drops('Data/Chest/Textures/Health.png')
                     d.center_x = x
                     d.center_y = y
                     d.type = a
