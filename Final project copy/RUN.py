@@ -83,7 +83,7 @@ class Window(arcade.Window):
                 hit = arcade.check_for_collision(self.character.sprite, d)
                 if hit == True:
                     if d.type == 'mana':
-                        self.character.mana += 20
+                        self.character.mana += 10
                     elif d.type == 'health':
                         self.character.health += 3
                     elif d.type == 'skill1':

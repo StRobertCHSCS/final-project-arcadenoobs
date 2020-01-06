@@ -42,7 +42,7 @@ class Window(arcade.Window):
         self.stone = arcade.load_texture('Data/Obs/Textures/Stone.png')
         self.slime = arcade.load_texture('Data/Monster/Textures/Slime.png')
         self.wooden_chest = arcade.load_texture('Data/Chest/Textures/Wooden Chest.png', scale=2)
-        self.ghost = arcade.load_texture('Data/Monster/Textures/Slime.png')
+        self.ghost = arcade.load_texture('Data/Monster/Textures/Ghost.png')
 
     def on_update(self, delta_time):
         '''update everything

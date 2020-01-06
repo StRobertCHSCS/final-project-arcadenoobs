@@ -92,6 +92,8 @@ class Mage:
             arcade.close_window()
         if self.mana > 50:
             self.mana = 50
+        if self.health > 10:
+            self.health = 10
     
     def draw(self):
         self.sprite.draw()
@@ -188,10 +190,11 @@ class Mage:
     
     def skill_1(self, x, y, list):
         if self.mana >= 3 and self.skill1 == 1:
-            self.mana -= 3
-            mx = x + self.sprite.center_x - 300
-            my = y + self.sprite.center_y - 300
-            i =  Ice_block('Data/Mage/Textures/Ice Block.png')
-            i.center_x = mx
-            i.center_y = my
-            list.append(i)
+            if abs(x - self.sprite.center_x) > 40 and abs(y - self.sprite.center_y) > 40:
+                self.mana -= 3
+                mx = x + self.sprite.center_x - 300
+                my = y + self.sprite.center_y - 300
+                i =  Ice_block('Data/Mage/Textures/Ice Block.png')
+                i.center_x = mx
+                i.center_y = my
+                list.append(i)

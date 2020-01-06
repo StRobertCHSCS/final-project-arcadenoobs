@@ -21,7 +21,7 @@ class Ghost(arcade.Sprite):
 class GhostFire(arcade.Sprite):
     
     def __init__(self, filename, x, y, dx, dy):
-        super().__init__(filename)
+        super().__init__(filename, 1.5)
         self.center_x = x
         self.center_y = y
         self.change_x = dx
@@ -126,8 +126,9 @@ class Monster:
                             mon.change_y = -speed
                         else:
                             mon.change_y = speed
-            elif abs(mon.center_x - x) < 20 and abs(mon.center_y - y) < 20:
+            if abs(mon.center_x - x) < 20:
                 mon.change_x = 0
+            if abs(mon.center_y - y) < 20:
                 mon.change_y = 0
         elif mon.type == 'ghost' and refresh == 60:
             speed = 1
