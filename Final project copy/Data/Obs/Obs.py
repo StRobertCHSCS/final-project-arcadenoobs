@@ -5,12 +5,14 @@ class Stone(arcade.Sprite):
 
     def __init__(self, filename):
         super().__init__(filename, 2)
+        self.type = 'stone'
         self.health = 999999
 
 class Cracked_Stone(arcade.Sprite):
 
     def __init__(self, filename, health):
         super().__init__(filename, 2)
+        self.type = 'cracked stone'
         self.health = health
 
 class Obstacle:
@@ -48,8 +50,14 @@ class Obstacle:
     
     def update(self):
         for obs in self.obs_list:
-            if obs.health == 0:
-                obs.remove_from_sprite_lists()
+            if obs.type == 'ice':
+                if obs.duration == 0:
+                    obs.remove_from_sprite_lists()
+                else:
+                    obs.duration -= 1
+            else:
+                if obs.health == 0:
+                    obs.remove_from_sprite_lists()
 
     
     def key_press(self, key, x, y, type):

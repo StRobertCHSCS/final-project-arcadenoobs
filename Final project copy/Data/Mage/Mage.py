@@ -2,6 +2,14 @@ import arcade
 import math
 import json
 
+class Ice_block(arcade.Sprite):
+
+    def __init__(self, filename):
+        super().__init__(filename, 2)
+        self.type = 'ice'
+        self.duration = 300
+        self.health = 10
+
 class Sprite(arcade.Sprite):
 
     def __init__(self, filename):
@@ -34,6 +42,10 @@ class Mage:
         self.left2 = None
         self.right1 = None
         self.right2 = None
+        self.skill1_d = None
+        self.skill2_d = None
+        self.skill3_d = None
+        self.unfound = None
         self.a_v = 1
         self.a_h = 1
         self.fireball = None
@@ -42,6 +54,9 @@ class Mage:
         self.health = 10
         self.mana = 50
         self.mana_limit = 50
+        self.skill1 = 0
+        self.skill2 = 0
+        self.skill3 = 0
 
     def setup(self):
         self.sprite_list = arcade.SpriteList()
@@ -55,6 +70,9 @@ class Mage:
         self.left2 = 'Data/Mage/Textures/Left2.png'
         self.right1 = 'Data/Mage/Textures/Right1.png'
         self.right2 = 'Data/Mage/Textures/Right2.png'
+        self.skill1_d = arcade.load_texture('Data/Mage/Textures/SKill1.png')
+        self.unfound = arcade.load_texture('Data/Mage/Textures/Not Found.png')
+
 
         self.sprite = Sprite(self.front1)
         sprite = open('Data/map/Spawnpoint.json')
@@ -68,19 +86,32 @@ class Mage:
         arcade.set_viewport(self.sprite.center_x - 301, self.sprite.center_x +299, self.sprite.center_y - 301, self.sprite.center_y + 299)
         self.sprite_list.update()
         self.fireball_list.update()
+        
         if self.health == 0:
-            print("GAME OVER\nWASTED")
+            print("GAME OVER\nYOU DIED")
             arcade.close_window()
+        if self.mana > 50:
+            self.mana = 50
+        if self.health > 10:
+            self.health = 10
     
     def draw(self):
         self.sprite.draw()
         self.fireball_list.draw()
         arcade.draw_text(f'Health: {self.health}', self.sprite.center_x - 300, 280 + self.sprite.center_y, arcade.color.RED, 15)
-        arcade.draw_text(f'Mana: {self.mana}/{self.mana_limit}', self.sprite.center_x - 300, 250 + self.sprite.center_y, arcade.color.BLUE, 15)
+        arcade.draw_text('Mana: {:.1f}/{}'.format(self.mana, self.mana_limit), self.sprite.center_x - 300, 250 + self.sprite.center_y, arcade.color.BLUE, 15)
+        if self.skill1 == 0:
+            arcade.draw_texture_rectangle(self.sprite.center_x - 40, self.sprite.center_y - 280, self.unfound.width*2, self.unfound.height*2, self.unfound)
+        elif self.skill1 == 1:
+            arcade.draw_texture_rectangle(self.sprite.center_x - 40, self.sprite.center_y - 280, self.skill1_d.width*2, self.skill1_d.height*2, self.skill1_d)
+        if self.skill2 == 0:
+            arcade.draw_texture_rectangle(self.sprite.center_x, self.sprite.center_y - 280, self.unfound.width*2, self.unfound.height*2, self.unfound)
+        if self.skill3 == 0:
+            arcade.draw_texture_rectangle(self.sprite.center_x + 40, self.sprite.center_y - 280, self.unfound.width*2, self.unfound.height*2, self.unfound)
     
     def mouse_release(self, x, y):
-        if self.mana > 0:
-            self.mana -= 1
+        if self.mana >= 0:
+            self.mana -= 0.1
             sx = self.sprite.center_x
             sy = self.sprite.center_y
             mx = x + self.sprite.center_x - 300
@@ -156,3 +187,14 @@ class Mage:
             self.sprite.change_y = 0
         elif key == arcade.key.A or key == arcade.key.D:
             self.sprite.change_x = 0
+    
+    def skill_1(self, x, y, list):
+        if self.mana >= 3 and self.skill1 == 1:
+            if abs(x - self.sprite.center_x) > 40 and abs(y - self.sprite.center_y) > 40:
+                self.mana -= 3
+                mx = x + self.sprite.center_x - 300
+                my = y + self.sprite.center_y - 300
+                i =  Ice_block('Data/Mage/Textures/Ice Block.png')
+                i.center_x = mx
+                i.center_y = my
+                list.append(i)
