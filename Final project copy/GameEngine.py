@@ -2,6 +2,7 @@ import Data.Engine.Creator as Creator
 import Data.Mage.Mage as Mage
 import Data.Obs.Obs as Obs
 import Data.Monster.Monster as Monster
+import Data.Chest.Chest as Chest
 import arcade
 import os
 import json
@@ -21,12 +22,10 @@ class Window(arcade.Window):
         os.chdir(file_path)
 
         arcade.set_background_color(arcade.color.WHITE)
-        self.spawnpoint = None
-        self.stone = None
-        self.cracked_stone = None
         self.character = Creator.Main()
         self.obs = Obs.Obstacle()
         self.monster = Monster.Monster()
+        self.chest = Chest.Chest()
         self.physics_engine = None
         self.type = 0
 
@@ -36,11 +35,13 @@ class Window(arcade.Window):
         self.character.setup()
         self.obs.setup()
         self.monster.setup()
+        self.chest.setup()
 
         self.spawnpoint = arcade.load_texture('Data/Engine/Textures/Spawnpoint.png', scale=1)
         self.cracked_stone = arcade.load_texture('Data/Obs/Textures/Cracked Stone.png', scale=2)
         self.stone = arcade.load_texture('Data/Obs/Textures/Stone.png')
         self.slime = arcade.load_texture('Data/Monster/Textures/Slime.png')
+        self.wooden_chest = arcade.load_texture('Data/Chest/Textures/Wooden Chest.png', scale=2)
 
     def on_update(self, delta_time):
         '''update everything
@@ -54,6 +55,7 @@ class Window(arcade.Window):
         self.obs.draw()
         self.character.draw()
         self.monster.draw()
+        self.chest.draw()
 
         if self.type == 0:
             arcade.draw_texture_rectangle(self.character.sprite.center_x + 280, self.character.sprite.center_y, self.stone.width*2, self.stone.height*2, self.stone)
@@ -63,6 +65,8 @@ class Window(arcade.Window):
             arcade.draw_texture_rectangle(self.character.sprite.center_x + 280, self.character.sprite.center_y,self.spawnpoint.width, self.spawnpoint.height, self.spawnpoint)
         elif self.type == 3:
             arcade.draw_texture_rectangle(self.character.sprite.center_x + 280, self.character.sprite.center_y,self.slime.width, self.slime.height, self.slime)
+        elif self.type == 4:
+            arcade.draw_texture_rectangle(self.character.sprite.center_x + 280, self.character.sprite.center_y,self.wooden_chest.width*2, self.wooden_chest.height*2, self.wooden_chest)
 
     def on_mouse_press(self, x, y, button, modifiers):
         '''calls everything when mouse buttons are pressed
@@ -86,15 +90,19 @@ class Window(arcade.Window):
                 self.character.renew_spawnpoint(round(self.character.sprite.center_x, -1), round(self.character.sprite.center_y, -1))
             elif self.type == 3:
                 self.monster.key_press(key, round(self.character.sprite.center_x, -1), round(self.character.sprite.center_y, -1), self.type)
+            elif self.type == 4:
+                self.chest.key_press(key, round(self.character.sprite.center_x, -1), round(self.character.sprite.center_y, -1), self.type)
+
         elif key == arcade.key.E:
             if self.obs.delete(self.character.sprite.center_x, self.character.sprite.center_y):
                 pass
-            else:
-                self.monster.delete(self.character.sprite.center_x, self.character.sprite.center_y)
+            elif self.monster.delete(self.character.sprite.center_x, self.character.sprite.center_y):
+                pass
+            elif  self.chest.delete(self.character.sprite.center_x, self.character.sprite.center_y):
+                pass
             
-
         if key == arcade.key.R:
-            if self.type <= 2:
+            if self.type <= 3:
                 self.type += 1
             else:
                 self.type = 0
@@ -103,6 +111,7 @@ class Window(arcade.Window):
             self.obs.save()
             self.character.save()
             self.monster.save()
+            self.chest.save()
 
     def on_key_release(self, key, modifiers):
         '''calls everything when keys are released
