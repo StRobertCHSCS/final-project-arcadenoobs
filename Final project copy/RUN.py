@@ -171,7 +171,7 @@ class Window(arcade.Window):
 def main():
     '''calls the whole program
     '''
-    print('Running as Alpha ver. 1.1')
+    print('Running as Alpha ver. 1.3')
     window = Window(0)
     window.set_up()
     arcade.run()
