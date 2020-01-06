@@ -43,6 +43,7 @@ class Window(arcade.Window):
         self.slime = arcade.load_texture('Data/Monster/Textures/Slime.png')
         self.wooden_chest = arcade.load_texture('Data/Chest/Textures/Wooden Chest.png', scale=2)
         self.ghost = arcade.load_texture('Data/Monster/Textures/Ghost.png')
+        self.biggyslime = arcade.load_texture('Data/Monster/Textures/BiggySlime.png')
 
     def on_update(self, delta_time):
         '''update everything
@@ -69,6 +70,8 @@ class Window(arcade.Window):
         elif self.type == 4:
             arcade.draw_texture_rectangle(self.character.sprite.center_x + 280, self.character.sprite.center_y, self.ghost.width, self.ghost.height, self.ghost)
         elif self.type == 5:
+            arcade.draw_texture_rectangle(self.character.sprite.center_x + 280, self.character.sprite.center_y, self.biggyslime.width, self.biggyslime.height, self.biggyslime)     
+        elif self.type == 6:
             arcade.draw_texture_rectangle(self.character.sprite.center_x + 280, self.character.sprite.center_y, self.wooden_chest.width*2, self.wooden_chest.height*2, self.wooden_chest)
 
     def on_mouse_press(self, x, y, button, modifiers):
@@ -91,9 +94,9 @@ class Window(arcade.Window):
                 self.obs.key_press(key, round(self.character.sprite.center_x, -1), round(self.character.sprite.center_y, -1), self.type)
             elif self.type == 2:
                 self.character.renew_spawnpoint(round(self.character.sprite.center_x, -1), round(self.character.sprite.center_y, -1))
-            elif self.type == 3 or 4:
+            elif self.type == 3 or 4 or 5:
                 self.monster.key_press(key, round(self.character.sprite.center_x, -1), round(self.character.sprite.center_y, -1), self.type)
-            elif self.type == 5:
+            elif self.type == 6:
                 self.chest.key_press(key, round(self.character.sprite.center_x, -1), round(self.character.sprite.center_y, -1), self.type)
 
         elif key == arcade.key.E:
@@ -105,7 +108,7 @@ class Window(arcade.Window):
                 pass
             
         if key == arcade.key.R:
-            if self.type <= 4:
+            if self.type <= 5:
                 self.type += 1
             else:
                 self.type = 0

@@ -226,6 +226,16 @@ class Monster:
             s.center_y = y
             s.health = 3
             self.monster_list.append(s)
+        elif type == 4:
+            s = Ghost'Data/Monster/Textures/Ghost.png')
+            s.center_x = x
+            s.center_y = y
+            self.monster_list.append(s)
+        elif type == 5:
+            s = BiggySlime('Data/Monster/Textures/BiggySlime.png')
+            s.center_x = x
+            s.center_y = y
+            self.monster_list.append(s)
 
     def color_change(self, x, y, type):
         if type == 'slime':
@@ -239,7 +249,7 @@ class Monster:
             n.center_y = y
             self.injued_list.append(n)
         elif type == 'biggyslime':
-            n = arcade.sprite('Data/Monster/Textures/BiggySlime1.png')
+            n = arcade.Sprite('Data/Monster/Textures/BiggySlime1.png')
             n.center_x = x
             n.center_y = y
             self.injued_list.append(n)
@@ -258,6 +268,12 @@ class Monster:
                 if mon.type == 'ghost':
                     g = {"x": mon.center_x, "y": mon.center_y}
                     list.append(g)
+            j = json.dump(list, f, ensure_ascii=False)
+        with open('Data/Map/BiggySlime.json', 'w+') as f:
+            list = []
+            for mon in self.monster_list:
+                s = {"x": mon.center_x, "y": mon.center_y}
+                list.append(s)
             j = json.dump(list, f, ensure_ascii=False)
         print('Monsters Saved')
         
