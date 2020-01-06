@@ -97,7 +97,7 @@ class Mage:
         self.sprite.draw()
         self.fireball_list.draw()
         arcade.draw_text(f'Health: {self.health}', self.sprite.center_x - 300, 280 + self.sprite.center_y, arcade.color.RED, 15)
-        arcade.draw_text(f'Mana: {self.mana}/{self.mana_limit}', self.sprite.center_x - 300, 250 + self.sprite.center_y, arcade.color.BLUE, 15)
+        arcade.draw_text('Mana: {:.1f}/{}'.format(self.mana, self.mana_limit), self.sprite.center_x - 300, 250 + self.sprite.center_y, arcade.color.BLUE, 15)
         if self.skill1 == 0:
             arcade.draw_texture_rectangle(self.sprite.center_x - 40, self.sprite.center_y - 280, self.unfound.width*2, self.unfound.height*2, self.unfound)
         elif self.skill1 == 1:
@@ -109,6 +109,7 @@ class Mage:
     
     def mouse_release(self, x, y):
         if self.mana >= 0:
+            self.mana -= 0.1
             sx = self.sprite.center_x
             sy = self.sprite.center_y
             mx = x + self.sprite.center_x - 300

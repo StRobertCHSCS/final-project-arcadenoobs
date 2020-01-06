@@ -30,7 +30,7 @@ class Window(arcade.Window):
         self.physics_engine2 = None
         self.job = job
         self.refresh_damage = 0
-        self.refresh_in_min = 0
+        self.refresh_in_sec = 0
         self.key = 0
 
     def set_up(self):
@@ -43,10 +43,10 @@ class Window(arcade.Window):
 
     def on_update(self, delta_time):
         #Refreshing
-        if self.refresh_in_min < 60:
-            self.refresh_in_min += 1
+        if self.refresh_in_sec < 60:
+            self.refresh_in_sec += 1
         else:
-            self.refresh_in_min = 0
+            self.refresh_in_sec = 0
         if self.refresh_damage < 60:
             self.refresh_damage += 1
 
@@ -69,6 +69,14 @@ class Window(arcade.Window):
                 hit = arcade.check_for_collision(self.character.sprite, c)
                 if hit == True and c.type != None:
                     c.health = 0
+
+        if len(self.monster.bullet_list) > 0:
+            hit_list = arcade.check_for_collision_with_list(self.character.sprite, self.monster.bullet_list)
+            if len(hit_list) > 0:
+                for fire in hit_list:
+                    self.character.health -= fire.attack
+                    fire.remove_from_sprite_lists()
+
         
         if len(self.chest.drops_list) > 0:
             for d in self.chest.drops_list:
@@ -87,12 +95,20 @@ class Window(arcade.Window):
         for mon in self.monster.actived_list:
             hit_list = arcade.check_for_collision_with_list(mon, self.obs.obs_list)
             if len(hit_list) > 0:
-                self.monster.path_update(mon, self.character.sprite.center_x, self.character.sprite.center_y, True)
+                self.monster.path_update(mon, self.character.sprite.center_x, self.character.sprite.center_y, True, self.refresh_in_sec)
             else:
-                self.monster.path_update(mon, self.character.sprite.center_x, self.character.sprite.center_y, False)
+                self.monster.path_update(mon, self.character.sprite.center_x, self.character.sprite.center_y, False, self.refresh_in_sec)
             self.physics_engine2 = arcade.PhysicsEngineSimple(mon, self.obs.obs_list)
             self.physics_engine2.update()
-        
+        for fire in self.monster.bullet_list:
+            hit_list = arcade.check_for_collision_with_list(fire, self.obs.obs_list)
+            if len(hit_list) > 0:
+                for obs in hit_list:
+                    if obs.health < 10000:
+                        obs.health -= fire.attack
+                        self.obs.color_change(obs.center_x, obs.center_y)
+                fire.remove_from_sprite_lists()
+
         #Fireballs
         if self.job == 0 and len(self.character.fireball_list) > 0:
             con = 0
@@ -113,7 +129,10 @@ class Window(arcade.Window):
                             fireball.remove_from_sprite_lists()
                         if mon.type == 'slime':
                             mon.health -= 1
-                            self.monster.color_change(mon.center_x, mon.center_y)
+                            self.monster.color_change(mon.center_x, mon.center_y, mon.type)
+                        elif mon.type == 'ghost':
+                            mon.health -= 1
+                            self.monster.color_change(mon.center_x, mon.center_y, mon.type)
                         con = 1
             if con == 0:
                 for c in self.chest.chest_list:
@@ -171,7 +190,7 @@ class Window(arcade.Window):
 def main():
     '''calls the whole program
     '''
-    print('Running as Alpha ver. 1.3')
+    print('Running as Alpha ver. 1.5')
     window = Window(0)
     window.set_up()
     arcade.run()

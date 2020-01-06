@@ -72,7 +72,7 @@ class Chest:
                     self.drops_list.append(d)
                     
     def key_press(self, key, x, y, type):
-        if type == 4:
+        if type == 5:
             c = Wooden_Chest('Data/Chest/Textures/Wooden Chest.png', None)
             c.center_x = x
             c.center_y = y
