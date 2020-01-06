@@ -9,7 +9,7 @@ import json
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
-SCREEN_TITLE = 'Engine'
+SCREEN_TITLE = 'Engine of the Cave'
 
 
 class Window(arcade.Window):

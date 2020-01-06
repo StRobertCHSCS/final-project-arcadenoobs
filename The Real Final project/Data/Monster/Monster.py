@@ -28,6 +28,14 @@ class GhostFire(arcade.Sprite):
         self.change_y = dy
         self.attack = 1
 
+class BiggySlime(arcade.Sprite):
+
+    def __init__(self, filename):
+        super().__init__(filename, 2)
+        self.type = 'biggyslime'
+        self.health = 10
+        self.attack = 2
+
 class Monster:
 
     def __init__(self):
@@ -60,6 +68,14 @@ class Monster:
             g.center_y = dict['y']
             self.monster_list.append(g)
 
+        bs = open('Data/Map/BiggySlime.json')
+        data = json.load(bs)
+        for dict in data:
+            s = BiggySlime('Data/Monster/Textures/BiggySlime.png')
+            s.center_x = dict['x']
+            s.center_y = dict['y']
+            self.monster_list.append(s)
+
     def draw(self):
         if len(self.monster_list) > 0:
             self.monster_list.draw()
@@ -86,7 +102,12 @@ class Monster:
                     g.center_x = mon.center_x
                     g.center_y = mon.center_y
                     g.health = mon.health
-                    self.actived_list.append(g)                    
+                    self.actived_list.append(g)
+                elif mon.type == 'biggyslime':
+                    s = BiggySlime('Data/Monster/Texture/BiggySlime.png')
+                    s.center_x = mon.center_x
+                    s.center_y = mon.center_y
+                    self.actived_list.append(s)                  
                 mon.remove_from_sprite_lists()
 
         for mon in self.actived_list:
@@ -102,7 +123,12 @@ class Monster:
                     g.center_x = mon.center_x
                     g.center_y = mon.center_y
                     g.health = mon.health
-                    self.monster_list.append(g)    
+                    self.monster_list.append(g)
+                elif mon.type == 'biggyslime':
+                    s = BiggySlime('Data/Monster/Texture/BiggySlime.png')
+                    s.center_x = mon.center_x
+                    s.center_y = mon.center_y
+                    self.monster_list.append(s)        
                 mon.remove_from_sprite_lists()
 
         for mon in self.actived_list:
@@ -174,6 +200,25 @@ class Monster:
             fire = GhostFire('Data/Monster/Textures/Ghost Fire.png', sx, sy, dx, dy)
             self.bullet_list.append(fire)
 
+        elif mon.type == 'biggyslime':
+            speed = 2
+            if abs(mon.center_x - x) > 20 and abs(mon.center_y - y) > 20:
+                if abs(mon.center_x - x) > abs(mon.center_y - y) and abs(mon.center_x - x) > 20 and collision == False:
+                    if mon.center_x > x:
+                        mon.change_x = -speed
+                    else:
+                        mon.change_x = speed
+                else:
+                    if abs(mon.center_y - y) > 20:
+                        if mon.center_y > y:
+                            mon.change_y = -speed
+                        else:
+                            mon.change_y = speed
+            if abs(mon.center_x - x) < 20:
+                mon.change_x = 0
+            if abs(mon.center_y - y) < 20:
+                mon.change_y = 0
+
     def key_press(self, key, x, y, type):
         if type == 3:
             s = Slime('Data/Monster/Textures/Slime.png', 0)
@@ -190,6 +235,11 @@ class Monster:
             self.injued_list.append(n)
         elif type == 'ghost':
             n = arcade.Sprite('Data/Monster/Textures/Ghost1.png')
+            n.center_x = x
+            n.center_y = y
+            self.injued_list.append(n)
+        elif type == 'biggyslime':
+            n = arcade.sprite('Data/Monster/Textures/BiggySlime1.png')
             n.center_x = x
             n.center_y = y
             self.injued_list.append(n)
