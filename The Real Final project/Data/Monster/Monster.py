@@ -104,7 +104,7 @@ class Monster:
                     g.health = mon.health
                     self.actived_list.append(g)
                 elif mon.type == 'biggyslime':
-                    s = BiggySlime('Data/Monster/Texture/BiggySlime.png')
+                    s = BiggySlime('Data/Monster/Textures/BiggySlime.png')
                     s.center_x = mon.center_x
                     s.center_y = mon.center_y
                     self.actived_list.append(s)                  
@@ -125,7 +125,7 @@ class Monster:
                     g.health = mon.health
                     self.monster_list.append(g)
                 elif mon.type == 'biggyslime':
-                    s = BiggySlime('Data/Monster/Texture/BiggySlime.png')
+                    s = BiggySlime('Data/Monster/Textures/BiggySlime.png')
                     s.center_x = mon.center_x
                     s.center_y = mon.center_y
                     self.monster_list.append(s)        
