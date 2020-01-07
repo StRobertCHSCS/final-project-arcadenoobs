@@ -249,7 +249,7 @@ class Monster:
             n.center_y = y
             self.injued_list.append(n)
         elif type == 'biggyslime':
-            n = arcade.Sprite('Data/Monster/Textures/BiggySlime1.png')
+            n = arcade.Sprite('Data/Monster/Textures/BiggySlime1.png', 2)
             n.center_x = x
             n.center_y = y
             self.injued_list.append(n)
