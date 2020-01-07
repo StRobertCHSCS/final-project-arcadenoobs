@@ -133,6 +133,9 @@ class Window(arcade.Window):
                         elif mon.type == 'ghost':
                             mon.health -= 1
                             self.monster.color_change(mon.center_x, mon.center_y, mon.type)
+                        elif mon.type == 'biggyslime':
+                            mon.health -= 1
+                            self.monster.color_change(mon.center_x, mon.center_y, mon.type)
                         con = 1
             if con == 0:
                 for c in self.chest.chest_list:
