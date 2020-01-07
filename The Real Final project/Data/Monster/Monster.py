@@ -272,8 +272,9 @@ class Monster:
         with open('Data/Map/BiggySlime.json', 'w+') as f:
             list = []
             for mon in self.monster_list:
-                s = {"x": mon.center_x, "y": mon.center_y}
-                list.append(s)
+                if mon.type == 'biggyslime':
+                    s = {"x": mon.center_x, "y": mon.center_y}
+                    list.append(s)
             j = json.dump(list, f, ensure_ascii=False)
         print('Monsters Saved')
         
