@@ -127,12 +127,8 @@ class Window(arcade.Window):
                     if len(hit_list) > 0:
                         for fireball in hit_list:
                             fireball.remove_from_sprite_lists()
-                        if mon.type == 'slime':
-                            mon.health -= 1
-                            self.monster.color_change(mon.center_x, mon.center_y, mon.type)
-                        elif mon.type == 'ghost':
-                            mon.health -= 1
-                            self.monster.color_change(mon.center_x, mon.center_y, mon.type)
+                        mon.health -= 1
+                        self.monster.color_change(mon.center_x, mon.center_y, mon.type)
                         con = 1
             if con == 0:
                 for c in self.chest.chest_list:
