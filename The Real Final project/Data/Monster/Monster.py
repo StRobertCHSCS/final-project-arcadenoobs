@@ -125,7 +125,7 @@ class Monster:
                     s.center_y = mon.center_y
                     self.actived_list.append(s)
                 elif mon.type == 'iceslime':
-                    s = BiggySlime('Data/Monster/Textures/IceSlime.png')
+                    s = IceSlime('Data/Monster/Textures/IceSlime.png')
                     s.center_x = mon.center_x
                     s.center_y = mon.center_y
                     self.actived_list.append(s)                   
