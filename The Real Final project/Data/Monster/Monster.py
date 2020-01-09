@@ -33,8 +33,16 @@ class BiggySlime(arcade.Sprite):
     def __init__(self, filename):
         super().__init__(filename, 2)
         self.type = 'biggyslime'
-        self.health = 10
+        self.health = 8
         self.attack = 2
+
+class IceSlime(arcade.Sprite):
+
+    def __init__(self, filename):
+        super().__init__(filename)
+        self.type = 'iceslime'
+        self.health = 3
+        self.attack = 1
 
 class Monster:
 
@@ -76,6 +84,14 @@ class Monster:
             s.center_y = dict['y']
             self.monster_list.append(s)
 
+        isl = open('Data/Map/IceSlime.json')
+        data = json.load(isl)
+        for dict in data:
+            s = BiggySlime('Data/Monster/Textures/IceSlime.png')
+            s.center_x = dict['x']
+            s.center_y = dict['y']
+            self.monster_list.append(s)
+
     def draw(self):
         if len(self.monster_list) > 0:
             self.monster_list.draw()
@@ -107,7 +123,12 @@ class Monster:
                     s = BiggySlime('Data/Monster/Textures/BiggySlime.png')
                     s.center_x = mon.center_x
                     s.center_y = mon.center_y
-                    self.actived_list.append(s)                  
+                    self.actived_list.append(s)
+                elif mon.type == 'iceslime':
+                    s = BiggySlime('Data/Monster/Textures/IceSlime.png')
+                    s.center_x = mon.center_x
+                    s.center_y = mon.center_y
+                    self.actived_list.append(s)                   
                 mon.remove_from_sprite_lists()
 
         for mon in self.actived_list:
@@ -126,6 +147,11 @@ class Monster:
                     self.monster_list.append(g)
                 elif mon.type == 'biggyslime':
                     s = BiggySlime('Data/Monster/Textures/BiggySlime.png')
+                    s.center_x = mon.center_x
+                    s.center_y = mon.center_y
+                    self.monster_list.append(s)
+                elif mon.type == 'iceslime':
+                    s = IceSlime('Data/Monster/Textures/IceSlime.png')
                     s.center_x = mon.center_x
                     s.center_y = mon.center_y
                     self.monster_list.append(s)        
@@ -219,6 +245,25 @@ class Monster:
             if abs(mon.center_y - y) < 20:
                 mon.change_y = 0
 
+        elif mon.type == 'iceslime':
+            speed = 3.5
+            if abs(mon.center_x - x) > 20 and abs(mon.center_y - y) > 20:
+                if abs(mon.center_x - x) > abs(mon.center_y - y) and abs(mon.center_x - x) > 20 and collision == False:
+                    if mon.center_x > x:
+                        mon.change_x = -speed
+                    else:
+                        mon.change_x = speed
+                else:
+                    if abs(mon.center_y - y) > 20:
+                        if mon.center_y > y:
+                            mon.change_y = -speed
+                        else:
+                            mon.change_y = speed
+            if abs(mon.center_x - x) < 20:
+                mon.change_x = 0
+            if abs(mon.center_y - y) < 20:
+                mon.change_y = 0
+
     def key_press(self, key, x, y, type):
         if type == 3:
             s = Slime('Data/Monster/Textures/Slime.png', 0)
@@ -236,6 +281,11 @@ class Monster:
             s.center_x = x
             s.center_y = y
             self.monster_list.append(s) 
+        elif type == 6:
+            s = IceSlime('Data/Monster/Textures/IceSlime.png')
+            s.center_x = x
+            s.center_y = y
+            self.monster_list.append(s) 
 
     def color_change(self, x, y, type):
         if type == 'slime':
@@ -250,6 +300,11 @@ class Monster:
             self.injued_list.append(n)
         elif type == 'biggyslime':
             n = arcade.Sprite('Data/Monster/Textures/BiggySlime1.png', 2)
+            n.center_x = x
+            n.center_y = y
+            self.injued_list.append(n)
+        elif type == 'iceslime':
+            n = arcade.Sprite('Data/Monster/Textures/IceSlime1.png', 2)
             n.center_x = x
             n.center_y = y
             self.injued_list.append(n)
@@ -273,6 +328,13 @@ class Monster:
             list = []
             for mon in self.monster_list:
                 if mon.type == 'biggyslime':
+                    s = {"x": mon.center_x, "y": mon.center_y}
+                    list.append(s)
+            j = json.dump(list, f, ensure_ascii=False)
+        with open('Data/Map/IceSlime.json', 'w+') as f:
+            list = []
+            for mon in self.monster_list:
+                if mon.type == 'iceslime':
                     s = {"x": mon.center_x, "y": mon.center_y}
                     list.append(s)
             j = json.dump(list, f, ensure_ascii=False)
