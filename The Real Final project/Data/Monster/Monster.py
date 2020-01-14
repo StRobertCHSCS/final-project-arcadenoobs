@@ -87,7 +87,7 @@ class Monster:
         isl = open('Data/Map/IceSlime.json')
         data = json.load(isl)
         for dict in data:
-            s = BiggySlime('Data/Monster/Textures/IceSlime.png')
+            s = IceSlime('Data/Monster/Textures/IceSlime.png')
             s.center_x = dict['x']
             s.center_y = dict['y']
             self.monster_list.append(s)
