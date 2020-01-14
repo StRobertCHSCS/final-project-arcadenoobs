@@ -1,6 +1,6 @@
 WASD for Movements
 
-R Switch Blocks{
+R Switch {
     "0": STONE(UNDESTROYATBLE)
     "1": CRACKED STONE(Destroyable, health = 5)
     "2": Set the Swamp Point(Can be change，Undestroyable)
