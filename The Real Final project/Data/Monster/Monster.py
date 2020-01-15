@@ -41,8 +41,8 @@ class IceSlime(arcade.Sprite):
     def __init__(self, filename):
         super().__init__(filename)
         self.type = 'iceslime'
-        self.health = 3
-        self.attack = 1
+        self.health = 5
+        self.attack = 0
 
 class Monster:
 
