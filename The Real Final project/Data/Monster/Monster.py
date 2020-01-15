@@ -39,7 +39,7 @@ class BiggySlime(arcade.Sprite):
 class IceSlime(arcade.Sprite):
 
     def __init__(self, filename):
-        super().__init__(filename)
+        super().__init__(filename, 0.5)
         self.type = 'iceslime'
         self.health = 5
         self.attack = 0
@@ -305,7 +305,7 @@ class Monster:
             n.center_y = y
             self.injued_list.append(n)
         elif type == 'iceslime':
-            n = arcade.Sprite('Data/Monster/Textures/IceSlime1.png', 2)
+            n = arcade.Sprite('Data/Monster/Textures/IceSlime1.png', 0.5)
             n.center_x = x
             n.center_y = y
             self.injued_list.append(n)
