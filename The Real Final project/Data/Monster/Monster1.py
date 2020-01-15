@@ -224,7 +224,7 @@ class IceSlime(arcade.Sprite):
         self.texture_list = texture_list
         self.type = 'iceslime'
         self.texture = texture_list[0]
-        self.scale = 0.5
+        self.scale = 100
         self.actived = False
         self.health = 3
         self.attack = 1
