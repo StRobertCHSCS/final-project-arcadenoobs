@@ -50,8 +50,8 @@ class IceSlime(arcade.Sprite):
         self.texture = 'Data/Monster/Textures/IceSlime.png'
         self.texture
         self.type = 'iceslime'
-        self.health = 3
-        self.attack = 1
+        self.health = 5
+        self.attack = 0
 
 class Monster:
 
@@ -137,7 +137,8 @@ class Monster:
                     s = IceSlime()
                     s.center_x = mon.center_x
                     s.center_y = mon.center_y
-                    self.actived_list.append(s)                   
+                    self.actived_list.append(s)
+
                 mon.remove_from_sprite_lists()
 
         for mon in self.actived_list:
@@ -255,7 +256,7 @@ class Monster:
                 mon.change_y = 0
 
         elif mon.type == 'iceslime':
-            speed = 3.5
+            speed = 5
             if abs(mon.center_x - x) > 20 and abs(mon.center_y - y) > 20:
                 if abs(mon.center_x - x) > abs(mon.center_y - y) and abs(mon.center_x - x) > 20 and collision == False:
                     if mon.center_x > x:
