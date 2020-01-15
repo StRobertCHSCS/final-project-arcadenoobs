@@ -4,8 +4,10 @@ import json
 
 class Slime(arcade.Sprite):
 
-    def __init__(self, filename, health):
-        super().__init__(filename)
+    def __init__(self):
+        super().__init__()
+        self.texture = 'Data/Monster/Textures/Slime.png'
+        self.actived = False
         self.health = 3
         self.type = 'slime'
         self.attack = 1
@@ -13,15 +15,19 @@ class Slime(arcade.Sprite):
 class Ghost(arcade.Sprite):
 
     def __init__(self, filename):
-        super().__init__(filename, 2)
+        super().__init__(scale=2)
+        self.actived = False
+        self.texture = 'Data/Monster/Textures/Ghost.png'
         self.type = 'ghost'
         self.health = 5
         self.attack = 1
 
 class GhostFire(arcade.Sprite):
     
-    def __init__(self, filename, x, y, dx, dy):
-        super().__init__(filename, 1.5)
+    def __init__(self, x, y, dx, dy):
+        super().__init__(scale=1.5)
+        self.texture = 'Data/Monster/Textures/Ghost Fire.png'
+        self.actived = False
         self.center_x = x
         self.center_y = y
         self.change_x = dx
@@ -31,7 +37,8 @@ class GhostFire(arcade.Sprite):
 class BiggySlime(arcade.Sprite):
 
     def __init__(self, filename):
-        super().__init__(filename, 2)
+        super().__init__(scale=2)
+        self.texture = 'Data/Monster/Textures/Biggy Slime.png'
         self.type = 'biggyslime'
         self.health = 8
         self.attack = 2
@@ -39,7 +46,9 @@ class BiggySlime(arcade.Sprite):
 class IceSlime(arcade.Sprite):
 
     def __init__(self, filename):
-        super().__init__(filename)
+        super().__init__()
+        self.texture = 'Data/Monster/Textures/IceSlime.png'
+        self.texture
         self.type = 'iceslime'
         self.health = 3
         self.attack = 1
@@ -62,7 +71,7 @@ class Monster:
         slime = open('Data/Map/Slime.json')
         data = json.load(slime)
         for dict in data:
-            s = Slime('Data/Monster/Textures/Slime.png', 0)
+            s = Slime()
             s.center_x = dict['x']
             s.center_y = dict['y']
             s.health = dict['h']
@@ -71,7 +80,7 @@ class Monster:
         ghost = open('Data/Map/Ghost.json')
         data = json.load(ghost)
         for dict in data:
-            g = Ghost('Data/Monster/Textures/Ghost.png')
+            g = Ghost()
             g.center_x = dict['x']
             g.center_y = dict['y']
             self.monster_list.append(g)
@@ -79,7 +88,7 @@ class Monster:
         bs = open('Data/Map/BiggySlime.json')
         data = json.load(bs)
         for dict in data:
-            s = BiggySlime('Data/Monster/Textures/BiggySlime.png')
+            s = BiggySlime()
             s.center_x = dict['x']
             s.center_y = dict['y']
             self.monster_list.append(s)
@@ -87,7 +96,7 @@ class Monster:
         isl = open('Data/Map/IceSlime.json')
         data = json.load(isl)
         for dict in data:
-            s = BiggySlime('Data/Monster/Textures/IceSlime.png')
+            s = BiggySlime()
             s.center_x = dict['x']
             s.center_y = dict['y']
             self.monster_list.append(s)
@@ -108,24 +117,24 @@ class Monster:
         for mon in self.monster_list:
             if abs(mon.center_x - x) < 300 and abs(mon.center_y - y) < 300:
                 if mon.type == 'slime':
-                    s = Slime('Data/Monster/Textures/Slime.png', 0)
+                    s = Slime()
                     s.center_x = mon.center_x
                     s.center_y = mon.center_y
                     s.health = mon.health
                     self.actived_list.append(s)
                 elif mon.type == 'ghost':
-                    g = Ghost('Data/Monster/Textures/Ghost.png')
+                    g = Ghost()
                     g.center_x = mon.center_x
                     g.center_y = mon.center_y
                     g.health = mon.health
                     self.actived_list.append(g)
                 elif mon.type == 'biggyslime':
-                    s = BiggySlime('Data/Monster/Textures/BiggySlime.png')
+                    s = BiggySlime()
                     s.center_x = mon.center_x
                     s.center_y = mon.center_y
                     self.actived_list.append(s)
                 elif mon.type == 'iceslime':
-                    s = IceSlime('Data/Monster/Textures/IceSlime.png')
+                    s = IceSlime()
                     s.center_x = mon.center_x
                     s.center_y = mon.center_y
                     self.actived_list.append(s)                   
@@ -223,7 +232,7 @@ class Monster:
             elif mx < sx and my == sy:
                 dx = -dh
                 dy = 0
-            fire = GhostFire('Data/Monster/Textures/Ghost Fire.png', sx, sy, dx, dy)
+            fire = GhostFire(sx, sy, dx, dy)
             self.bullet_list.append(fire)
 
         elif mon.type == 'biggyslime':

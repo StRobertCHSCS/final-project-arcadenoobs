@@ -1,15 +1,16 @@
 import Data.Mage.Mage as Mage
 import Data.Obs.Obs as Obs
-import Data.Monster.Monster as Monster
+import Data.Monster.Monster1 as Monster
 import Data.Chest.Chest as Chest
 import arcade
 import os
 import json
+import threading
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = 'THE CAVE'
-
+lock = threading.Lock()
 
 class Window(arcade.Window):
 
@@ -56,7 +57,7 @@ class Window(arcade.Window):
         self.physics_engine.update()
 
         if self.refresh_damage == 60:
-            hit_list = arcade.check_for_collision_with_list(self.character.sprite, self.monster.actived_list)
+            hit_list = arcade.check_for_collision_with_list(self.character.sprite, self.monster.monster_list)
             if len(hit_list) > 0:
                 hurt = 0
                 for mon in hit_list:
@@ -92,22 +93,19 @@ class Window(arcade.Window):
 
         #Monsters
         self.monster.update(self.character.sprite.center_x, self.character.sprite.center_y)
-        for mon in self.monster.actived_list:
-            hit_list = arcade.check_for_collision_with_list(mon, self.obs.obs_list)
-            if len(hit_list) > 0:
-                self.monster.path_update(mon, self.character.sprite.center_x, self.character.sprite.center_y, True, self.refresh_in_sec)
-            else:
-                self.monster.path_update(mon, self.character.sprite.center_x, self.character.sprite.center_y, False, self.refresh_in_sec)
+        for mon in self.monster.monster_list:
             self.physics_engine2 = arcade.PhysicsEngineSimple(mon, self.obs.obs_list)
             self.physics_engine2.update()
         for fire in self.monster.bullet_list:
             hit_list = arcade.check_for_collision_with_list(fire, self.obs.obs_list)
             if len(hit_list) > 0:
+                lock.acquire()
                 for obs in hit_list:
                     if obs.health < 10000:
                         obs.health -= fire.attack
                         self.obs.color_change(obs.center_x, obs.center_y)
                 fire.remove_from_sprite_lists()
+                lock.release()
 
         #Fireballs
         if self.job == 0 and len(self.character.fireball_list) > 0:
@@ -115,6 +113,7 @@ class Window(arcade.Window):
             for obs in self.obs.obs_list:
                 hit_list = arcade.check_for_collision_with_list(obs, self.character.fireball_list)
                 if len(hit_list) > 0:
+
                     for fireball in hit_list:
                         fireball.remove_from_sprite_lists()
                     if obs.health < 10000:
@@ -122,13 +121,13 @@ class Window(arcade.Window):
                         self.obs.color_change(obs.center_x, obs.center_y)
                     con = 1
             if con == 0:
-                for mon in self.monster.actived_list:
+                for mon in self.monster.monster_list:
                     hit_list = arcade.check_for_collision_with_list(mon, self.character.fireball_list)
                     if len(hit_list) > 0:
                         for fireball in hit_list:
                             fireball.remove_from_sprite_lists()
                         mon.health -= 1
-                        self.monster.color_change(mon.center_x, mon.center_y, mon.type)
+                        mon.injued = True
                         con = 1
             if con == 0:
                 for c in self.chest.chest_list:
@@ -170,6 +169,8 @@ class Window(arcade.Window):
     def on_key_press(self, key, modifiers):
         '''calls everything when keys are pressed
         '''
+        if key == arcade.key.ESCAPE:
+            arcade.close_window()
         if key == 49 and self.character.skill1 == 1:
             self.key = 1
         else:
