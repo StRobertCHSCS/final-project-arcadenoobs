@@ -249,6 +249,7 @@ class IceSlime(arcade.Sprite):
         lock.release()
         if self.injued == True:
             self.injued = False
+            
     def path_update(self, x, y, collision):
         speed = 1.5
         if abs(self.center_x - x) > 20 and abs(self.center_y - y) > 20:
