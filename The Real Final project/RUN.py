@@ -188,7 +188,7 @@ def main():
     '''calls the whole program
     '''
     print('Running as Alpha ver. 1.5')
-    print('Good Luck')
+    print('Good Luck Folks')
     window = Window(0)
     window.set_up()
     arcade.run()
