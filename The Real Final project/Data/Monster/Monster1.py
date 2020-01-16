@@ -6,6 +6,53 @@ import json
 
 lock  = threading.Lock()
 
+def update_path(cx, cy, x, y, speed):
+    dx = 0
+    dy = 0
+    if abs(cx - x) > 20 and abs(cy - y) > 20:
+        if abs(cx - x) > abs(cy - y) and abs(cx - x) > 20:
+            if cx > x:
+                dx = -speed
+            else:
+                dx = speed
+        else:
+            if abs(cy - y) > 0:
+                if cy > y:
+                    dy = -speed
+                else:
+                    dy = speed
+    if abs(cx - x) < 20:
+        dx = 0
+    if abs(cy - y) < 20:
+        dy = 0 
+    
+    return [dx, dy]
+
+def update_bullet(sx, sy, mx, my):
+    dh = 5
+    if mx != sx and my != sy:
+        rx = (mx - sx)/abs(mx - sx)
+        ry = (my - sy)/abs(my - sy)
+        theta = math.atan(abs(my - sy)/abs(mx - sx))
+        dx = (dh*math.cos(theta))*rx
+        dy = (dh*math.sin(theta))*ry
+    elif mx == sx and my > sy:
+        dx = 0
+        dy = dh
+    elif mx == sx and my < sy:
+        dx = 0
+        dy = -dh
+    elif mx > sx and my == sy:
+        dx = dh
+        dy = 0
+    elif mx < sx and my == sy:
+        dx = -dh
+        dy = 0
+
+    list = [sx, sy, dx, dy]
+
+    return list
+
 def create_texture(t, t1):
     '''create a textrue
 
@@ -30,6 +77,7 @@ class Slime(arcade.Sprite):
         self.attack = 1
         self.face = 0
         self.injued = False
+        self.speed = 1.5
     
     def update_animation(self):
         if self.change_x > 0 and self.face == 0:
@@ -51,24 +99,9 @@ class Slime(arcade.Sprite):
             self.injued = False
 
     def path_update(self, x, y, collision):
-        speed = 1.5
-        if abs(self.center_x - x) > 20 and abs(self.center_y - y) > 20:
-            if abs(self.center_x - x) > abs(self.center_y - y) and abs(self.center_x - x) > 20 and collision == False:
-                if self.center_x > x:
-                    self.change_x = -speed
-                else:
-                    self.change_x = speed
-            else:
-                if abs(self.center_x - y) > 20:
-                    if self.center_y > y:
-                        self.change_y = -speed
-                    else:
-                        self.change_y = speed
-        if abs(self.center_x - x) < 20:
-            self.change_x = 0
-        if abs(self.center_y - y) < 20:
-            self.change_y = 0 
-        
+        list = update_path(self.center_x, self.center_y, x, y, self.speed)
+        self.change_x = list[0]
+        self.change_y = list[1]
         return None
 
 class Ghost(arcade.Sprite):
@@ -84,6 +117,7 @@ class Ghost(arcade.Sprite):
         self.attack = 1
         self.face = 0
         self.injued = False
+        self.speed = 1
     
     def update_animation(self):
         if self.change_x > 0 and self.face == 0:
@@ -105,49 +139,12 @@ class Ghost(arcade.Sprite):
             self.injued = False
 
     def path_update(self, x, y, collision):
-        speed = 1.5
-        if abs(self.center_x - x) > 20 and abs(self.center_y - y) > 20:
-            if abs(self.center_x - x) > abs(self.center_y - y) and abs(self.center_x - x) > 20 and collision == False:
-                if self.center_x > x:
-                    self.change_x = -speed
-                else:
-                    self.change_x = speed
-            else:
-                if abs(self.center_x - y) > 20:
-                    if self.center_y > y:
-                        self.change_y = -speed
-                    else:
-                        self.change_y = speed
-        if abs(self.center_x - x) < 20:
-            self.change_x = 0
-        if abs(self.center_y - y) < 20:
-            self.change_y = 0 
-
-        sx = self.center_x
-        sy = self.center_y
-        mx = x
-        my = y
-        dh = 5
-        if mx != sx and my != sy:
-            rx = (mx - sx)/abs(mx - sx)
-            ry = (my - sy)/abs(my - sy)
-            theta = math.atan(abs(my - sy)/abs(mx - sx))
-            dx = (dh*math.cos(theta))*rx
-            dy = (dh*math.sin(theta))*ry
-        elif mx == sx and my > sy:
-            dx = 0
-            dy = dh
-        elif mx == sx and my < sy:
-            dx = 0
-            dy = -dh
-        elif mx > sx and my == sy:
-            dx = dh
-            dy = 0
-        elif mx < sx and my == sy:
-            dx = -dh
-            dy = 0
+        list = update_path(self.center_x, self.center_y, x, y, self.speed)
+        self.change_x = list[0]
+        self.change_y = list[1]
+        list = update_bullet(self.center_x, self.center_y, x, y)
         
-        return [sx, sy, dx, dy]
+        return list
     
 
 class GhostFire(arcade.Sprite):
@@ -177,6 +174,7 @@ class BiggySlime(arcade.Sprite):
         self.attack = 2
         self.face = 0
         self.injued = False
+        self.speed = 2
 
     def update_animation(self):
         if self.change_x > 0 and self.face == 0:
@@ -197,23 +195,9 @@ class BiggySlime(arcade.Sprite):
         if self.injued == True:
             self.injued = False
     def path_update(self, x, y, collision):
-        speed = 2
-        if abs(self.center_x - x) > 20 and abs(self.center_y - y) > 20:
-            if abs(self.center_x - x) > abs(self.center_y - y) and abs(self.center_x - x) > 20 and collision == False:
-                if self.center_x > x:
-                    self.change_x = -speed
-                else:
-                    self.change_x = speed
-            else:
-                if abs(self.center_x - y) > 20:
-                    if self.center_y > y:
-                        self.change_y = -speed
-                    else:
-                        self.change_y = speed
-        if abs(self.center_x - x) < 20:
-            self.change_x = 0
-        if abs(self.center_y - y) < 20:
-            self.change_y = 0 
+        list = update_path(self.center_x, self.center_y, x, y, self.speed)
+        self.change_x = list[0]
+        self.change_y = list[1]
         
         return None
    
@@ -224,12 +208,13 @@ class IceSlime(arcade.Sprite):
         self.texture_list = texture_list
         self.type = 'iceslime'
         self.texture = texture_list[0]
-        self.scale = 100
+        self.scale = 0.5
         self.actived = False
         self.health = 3
         self.attack = 1
         self.face = 0
         self.injued = False
+        self.speed = 1.5
 
     def update_animation(self):
         if self.change_x > 0 and self.face == 0:
@@ -245,28 +230,15 @@ class IceSlime(arcade.Sprite):
             self.texture = self.texture_list[1]
         elif self.face == 1 and self.injued == True:
             self.texture = self.texture_list[3]
-        self.scale = 3
+        self.scale = 0.5
         lock.release()
         if self.injued == True:
             self.injued = False
+
     def path_update(self, x, y, collision):
-        speed = 1.5
-        if abs(self.center_x - x) > 20 and abs(self.center_y - y) > 20:
-            if abs(self.center_x - x) > abs(self.center_y - y) and abs(self.center_x - x) > 20 and collision == False:
-                if self.center_x > x:
-                    self.change_x = -speed
-                else:
-                    self.change_x = speed
-            else:
-                if abs(self.center_x - y) > 20:
-                    if self.center_y > y:
-                        self.change_y = -speed
-                    else:
-                        self.change_y = speed
-        if abs(self.center_x - x) < 20:
-            self.change_x = 0
-        if abs(self.center_y - y) < 20:
-            self.change_y = 0 
+        list = update_path(self.center_x, self.center_y, x, y, self.speed)
+        self.change_x = list[0]
+        self.change_y = list[1]
         
         return None
 
