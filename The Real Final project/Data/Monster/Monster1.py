@@ -212,7 +212,7 @@ class IceSlime(arcade.Sprite):
         self.scale = 0.5
         self.actived = False
         self.health = 3
-        self.attack = 1
+        self.attack = 0
         self.face = 0
         self.injued = False
         self.speed = 5

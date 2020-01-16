@@ -194,6 +194,7 @@ class BiggySlime(arcade.Sprite):
         lock.release()
         if self.injued == True:
             self.injued = False
+
     def path_update(self, x, y, collision):
         list = update_path(self.center_x, self.center_y, x, y, self.speed)
         self.change_x = list[0]
@@ -211,7 +212,7 @@ class IceSlime(arcade.Sprite):
         self.scale = 0.5
         self.actived = False
         self.health = 3
-        self.attack = 1
+        self.attack = 0
         self.face = 0
         self.injued = False
         self.speed = 5
