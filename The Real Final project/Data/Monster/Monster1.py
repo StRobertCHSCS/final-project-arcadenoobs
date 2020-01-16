@@ -234,11 +234,6 @@ class IceSlime(arcade.Sprite):
         lock.release()
         if self.injued == True:
             self.injued = False
-<<<<<<< HEAD
-            
-=======
-
->>>>>>> 1fee0119754a46b4ac4b2036e33af1bb22231f15
     def path_update(self, x, y, collision):
         list = update_path(self.center_x, self.center_y, x, y, self.speed)
         self.change_x = list[0]
