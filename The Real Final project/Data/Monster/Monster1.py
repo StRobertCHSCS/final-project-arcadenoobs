@@ -79,7 +79,7 @@ class Slime(arcade.Sprite):
         self.injued = False
         self.speed = 1.5
     
-    def update_animation(self):
+    def update_animation(self, delta_time):
         if self.change_x > 0 and self.face == 0:
             self.face = 1
         elif self.change_x < 0 and self.face == 1:
@@ -119,7 +119,7 @@ class Ghost(arcade.Sprite):
         self.injued = False
         self.speed = 1
     
-    def update_animation(self):
+    def update_animation(self, delta_time):
         if self.change_x > 0 and self.face == 0:
             self.face = 1
         elif self.change_x < 0 and self.face == 1:
@@ -176,7 +176,7 @@ class BiggySlime(arcade.Sprite):
         self.injued = False
         self.speed = 2
 
-    def update_animation(self):
+    def update_animation(self, delta_time):
         if self.change_x > 0 and self.face == 0:
             self.face = 1
         elif self.change_x < 0 and self.face == 1:
@@ -216,7 +216,7 @@ class IceSlime(arcade.Sprite):
         self.injued = False
         self.speed = 1.5
 
-    def update_animation(self):
+    def update_animation(self, delta_time):
         if self.change_x > 0 and self.face == 0:
             self.face = 1
         elif self.change_x < 0 and self.face == 1:
