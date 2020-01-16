@@ -1,6 +1,6 @@
 import Data.Mage.Mage as Mage
 import Data.Obs.Obs as Obs
-import Data.Monster.Monster1 as Monster
+import Data.Monster.Monster2 as Monster
 import Data.Chest.Chest as Chest
 import arcade
 import os
